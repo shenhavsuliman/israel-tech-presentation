@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="מצגת אקדמית אינטראקטיבית: פריצות דרך בטכנולוגיות הגנה בישראל - כיפת ברזל, קלע דוד, חץ 2/3 וקרן ברזל (מגן אור).">
-  <title>מגן ישראל // טכנולוגיות הגנה אווירית פורצות דרך</title>
+  <meta name="description" content="מצגת אקדמית יוקרתית: מערך ההגנה הרב-שכבתי של מדינת ישראל - כיפת ברזל, קלע דוד, חץ 2/3 ומגן אור.">
+  <title>מגן ישראל // מערך ההגנה הרב-שכבתי</title>
   
-  <!-- גופני תצוגה עבריים מודרניים: Heebo ו-Rubik וגופן טלמטריה Space Mono -->
+  <!-- גופנים עבריים נקיים: Rubik & Heebo וגופן טלמטריה Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Rubik:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=Rubik:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   
-  <!-- גיליון סגנון נקי בסגנון Apple Presentation -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="deck-body">
+<body class="keynote-body">
 
-  <!-- רקע 3D WebGL שקט: Three.js -->
+  <!-- רקע 3D WebGL שקוף ומסך מלא: Three.js -->
   <div id="three-container" class="three-container" aria-label="כיפת הגנה תלת-ממדית">
     <div id="three-canvas-target"></div>
   </div>
 
-  <!-- סרגל כותרת עליון אלגנטי ומינימליסטי למרצה -->
+  <!-- סרגל עליון מינימליסטי ומרחף -->
   <header class="deck-header">
     <div class="header-brand">
       <span class="radar-dot-pulse"></span>
@@ -31,692 +30,268 @@
     </div>
 
     <div class="header-center-info">
-      <div class="slide-counter-badge" id="header-counter">
-        <span class="counter-label">מיקום:</span>
-        <span class="counter-value" id="current-slide-counter">שקופית 1 מתוך 6</span>
+      <div class="slide-counter-badge">
+        <span id="current-slide-counter">שקופית 1 מתוך 6</span>
       </div>
     </div>
 
     <div class="header-controls">
-      <button id="btn-toggle-3d" class="deck-btn" title="הדלק / כבה תצוגת תלת-ממד (מקש T)">
-        <span class="btn-icon">🌐</span>
-        <span id="btn-3d-text">מרחב 3D</span>
-      </button>
       <button id="btn-toggle-fullscreen" class="deck-btn deck-btn-icon" title="מסך מלא (מקש F)">
-        <span>⛶</span>
+        <span>⛶ מסך מלא</span>
       </button>
     </div>
   </header>
 
-  <!-- מרחב השקופיות (כל שקופית פרוסה על מסך מלא 100vh) -->
+  <!-- מרחב השקופיות (כל שקופית 100vh עם שקיפות מלאה) -->
   <main class="deck-container" id="deck-container">
     
-    <!-- שקופית 1: תפיסת ההגנה הרב-שכבתית ומפת האיומים -->
-    <section id="slide-0" class="slide active" data-slide="0">
-      <div class="slide-content">
-        <div class="slide-header">
-          <span class="module-tag">שקופית 01 // דוקטרינה אסטרטגית</span>
-          <h1 class="slide-title">ההגנה הרב-שכבתית: תפיסה מבצעית ומפת האיומים</h1>
-          <p class="slide-desc">
-            האילוץ הגיאו-אסטרטגי של ישראל: מפצמ"רים של שניות בודדות ועד טילים היפר-סוניים בחלל.
-          </p>
+    <!-- שקופית 1: מיצג פתיחה חזותי 100% תלת-ממד (Showcase Slide) -->
+    <section id="slide-0" class="slide active slide-showcase-3d" data-slide="0">
+      <div class="showcase-content">
+        <div class="showcase-header">
+          <span class="hero-tag">דוקטרינת ההגנה הלאומית</span>
+          <h1 class="hero-3d-title">מערך ההגנה הרב-שכבתי של מדינת ישראל</h1>
+          <p class="hero-3d-sub">מטכנולוגיות יירוט טקטיות בגובה הקרקע ועד לוחמה קינטית מחוץ לאטמוספירה</p>
         </div>
 
-        <div class="slide-grid">
-          <!-- כרטיס תוכן שמאלי (3 נקודות מפתח ברורות) -->
-          <div class="deck-card briefing-card">
-            <div class="card-header">
-              <span class="card-icon">⚡</span>
-              <h2>שלושת אתגרי הליבה של זירת הלחימה</h2>
-            </div>
-            <div class="card-body">
-              <ul class="key-points-list">
-                <li>
-                  <strong>דחיסת זמני תגובה קיצונית:</strong> מעוטף עזה וגבול הצפון מגיעים איומים תוך 15–30 שניות בלבד, בעוד טיל בליסטי מאיראן מספק חלון התראה של 10–12 דקות בלבד למרחק 1,500 ק"מ.
-                </li>
-                <li>
-                  <strong>גיוון איומים רב-ממדי:</strong> צורך בו-זמני ליירט רקטות קצרות, כטב"מים מתאבדים מנמיכי טוס, טילי שיוט מתמרנים וטילים בליסטיים הטסים במהירות מאך 8 ומעלה.
-                </li>
-                <li>
-                  <strong>פרדוקס הא-סימטריה הכלכלית:</strong> שיגור מיירט בעלות מיליון דולר נגד רקטה זולה של $500 יוביל לקריסה כלכלית. התמחות ייעודית לפי שכבה היא תנאי הישרדות.
-                </li>
-              </ul>
-
-              <div class="tiers-summary-box">
-                <span class="box-title">ארבע שכבות המגן הלאומי:</span>
-                <div class="tiers-chips-grid">
-                  <div class="tier-chip chip-laser"><strong>מגן אור (קרן ברזל):</strong> לייזר רב-עוצמה (~$3.50 לירייה)</div>
-                  <div class="tier-chip chip-iron"><strong>שכבה 1 - כיפת ברזל:</strong> רקטות, פצמ"רים וכטב"מים (עד 70 ק"מ)</div>
-                  <div class="tier-chip chip-david"><strong>שכבה 2 - קלע דוד:</strong> רקטות כבדות וטילי שיוט (עד 300 ק"מ)</div>
-                  <div class="tier-chip chip-arrow"><strong>שכבות 3 ו-4 - חץ 2 ו-3:</strong> טילים בליסטיים בחלל (עד 2,400 ק"מ)</div>
-                </div>
-              </div>
-            </div>
+        <!-- תגית מקרא צפה מעוצבת -->
+        <div class="floating-3d-legend">
+          <div class="legend-item">
+            <span class="legend-dot dot-green"></span>
+            <strong>כיפת ברזל:</strong> שכבה נמוכה (0–10 ק"מ)
           </div>
-
-          <!-- כרטיס אינטראקטיבי ימני: סיווג איומים דינמי -->
-          <div class="deck-card interactive-card">
-            <div class="card-header">
-              <span class="card-icon">🎯</span>
-              <h2>סיווג איומים אינטראקטיבי והקצאת מיירטים</h2>
-              <span class="live-badge">הדגמה חיה</span>
-            </div>
-            <div class="card-body">
-              <p class="interactive-instruction">לחץ על סוג איום כדי לראות את מאפייני הטיסה, חלון התגובה והשכבה המיירטת:</p>
-
-              <div class="threat-buttons-grid">
-                <button class="threat-select-btn active" data-threat="vshorad">
-                  <span class="threat-btn-tag">איום 01</span>
-                  <span class="threat-btn-title">רקטה קצרת טווח / פצמ"ר</span>
-                  <span class="threat-btn-spec">מאך 1.2–2.0 • 4–70 ק"מ</span>
-                </button>
-                <button class="threat-select-btn" data-threat="uav">
-                  <span class="threat-btn-tag">איום 02</span>
-                  <span class="threat-btn-title">נחיל כטב"מים / חימוש משוטט</span>
-                  <span class="threat-btn-spec">מאך 0.3 • גובה נמוך</span>
-                </button>
-                <button class="threat-select-btn" data-threat="cruise">
-                  <span class="threat-btn-tag">איום 03</span>
-                  <span class="threat-btn-title">טיל שיוט מתמרן עוקב-קרקע</span>
-                  <span class="threat-btn-spec">מאך 0.85 • תמרון בגובה נמוך</span>
-                </button>
-                <button class="threat-select-btn" data-threat="ballistic">
-                  <span class="threat-btn-tag">איום 04</span>
-                  <span class="threat-btn-title">טיל בליסטי היפר-סוני (MRBM)</span>
-                  <span class="threat-btn-spec">מאך 8+ • מחוץ לאטמוספירה</span>
-                </button>
-              </div>
-
-              <!-- פאנל טלמטריה של האיום -->
-              <div class="telemetry-readout-panel">
-                <div class="readout-grid">
-                  <div class="readout-box">
-                    <span class="readout-label">מכ"ם גילוי ראשי:</span>
-                    <span id="threat-radar" class="readout-val text-cyan">EL/M-2084 MMR (מכ"ם בוהה AESA)</span>
-                  </div>
-                  <div class="readout-box">
-                    <span class="readout-label">פרופיל מהירות:</span>
-                    <span id="threat-velocity" class="readout-val text-amber">400–700 מטר/שנייה (על-קולי)</span>
-                  </div>
-                  <div class="readout-box">
-                    <span class="readout-label">גובה יירוט אופטימלי:</span>
-                    <span id="threat-altitude" class="readout-val text-cyan">1,000–6,000 מטר (טרופוספירה)</span>
-                  </div>
-                  <div class="readout-box">
-                    <span class="readout-label">חלון החלטה ויירוט:</span>
-                    <span id="threat-window" class="readout-val text-crimson">15 עד 45 שניות בלבד!</span>
-                  </div>
-                </div>
-
-                <div class="allocation-result-banner">
-                  <span class="alloc-title">הקצאת מיירט אופטימלית:</span>
-                  <span id="threat-allocation" class="alloc-name text-emerald">שכבה 1 // כיפת ברזל (טיל טמי"ר)</span>
-                </div>
-              </div>
-            </div>
+          <span class="legend-sep">|</span>
+          <div class="legend-item">
+            <span class="legend-dot dot-amber"></span>
+            <strong>קלע דוד:</strong> שכבת ביניים (עד 40 ק"מ)
           </div>
+          <span class="legend-sep">|</span>
+          <div class="legend-item">
+            <span class="legend-dot dot-cyan"></span>
+            <strong>חץ 2 וחץ 3:</strong> שכבה עליונה ובחלל (>100 ק"מ)
+          </div>
+        </div>
+
+        <div class="showcase-hint">
+          <span>גרור עם העכבר לסיבוב 3D • גלול לזום • מקש רווח לשקופית הבאה</span>
         </div>
       </div>
     </section>
 
-    <!-- שקופית 2: כיפת ברזל (שכבה ראשונה) ואלגוריתם שטח פתוח (PIP) -->
+    <!-- שקופית 2: כיפת ברזל (פריסת 2 עמודות RTL) -->
     <section id="slide-1" class="slide" data-slide="1">
-      <div class="slide-content">
-        <div class="slide-header">
-          <span class="module-tag">שקופית 02 // שכבה ראשונה</span>
-          <h1 class="slide-title">כיפת ברזל: יירוט טקטי מוכח ואלגוריתם PIP</h1>
-          <p class="slide-desc">
-            רפאל ואלתא (תע"א) • למעלה מ-2,500 יירוטים מבצעיים • שיעור הצלחה עקבי של מעל 90%
-          </p>
+      <div class="slide-grid-2col">
+        <!-- עמודה ימנית (35%): כרטיס זכוכית שקוף צף -->
+        <div class="glass-sidebar">
+          <span class="module-tag">שכבה ראשונה</span>
+          <h2 class="slide-title">כיפת ברזל</h2>
+          <p class="slide-desc">יירוט טקטי מוכח ואלגוריתם נקודת פגיעה משוערת (PIP)</p>
+
+          <ul class="key-points-list">
+            <li>
+              <strong>אלגוריתם PIP סלקטיבי:</strong> חישוב מסלול בשבריר שנייה והתעלמות מרקטות הנופלות בשטח פתוח.
+            </li>
+            <li>
+              <strong>חיסכון קריטי במלאי:</strong> מניעת ירי מיותר ושמירה על מחסנית מלאה להגנה על ערים ומתקנים רגישים.
+            </li>
+            <li>
+              <strong>מעל 90% הצלחה:</strong> אלפי יירוטים מבצעיים בזמן אמת של רקטות, פצמ"רים וכטב"מים.
+            </li>
+          </ul>
         </div>
 
-        <div class="slide-grid">
-          <!-- תוכן עיוני מובנה -->
-          <div class="deck-card briefing-card">
-            <div class="card-header">
-              <span class="card-icon">📡</span>
-              <h2>שלישיית הרכיבים של סוללת כיפת ברזל</h2>
-            </div>
-            <div class="card-body">
-              <div class="system-specs-2x2">
-                <div class="spec-card">
-                  <span class="spec-badge">מכ"ם וגילוי</span>
-                  <h3 class="spec-name">EL/M-2084 MMR</h3>
-                  <p class="spec-text">מכ"ם AESA מתקדם העוקב בו-זמנית אחר עד 1,100 מטרות באוויר ומחשב נקודות שיגור ופגיעה.</p>
-                </div>
-                <div class="spec-card">
-                  <span class="spec-badge">מרכז ניהול אש</span>
-                  <h3 class="spec-name">שו"ב (BMC)</h3>
-                  <p class="spec-text">מחשב את מסלול הרקטה תוך פחות משנייה אחת וקובע האם היא מסכנת יישוב מאוכלס או נופלת בשטח פתוח.</p>
-                </div>
-                <div class="spec-card">
-                  <span class="spec-badge">טיל מיירט</span>
-                  <h3 class="spec-name">טיל טמי"ר (Tamir)</h3>
-                  <p class="spec-text">מרעום לייזר קרבה, כנפוני היגוי זריזים וראש ביות אלקטרו-אופטי. עלות מיירט: כ-50,000 דולר.</p>
-                </div>
-                <div class="spec-card">
-                  <span class="spec-badge">כושר שיגור</span>
-                  <h3 class="spec-name">20 טילים למשגר</h3>
-                  <p class="spec-text">3–4 משגרים בסוללה (60–80 טילים זמינים), פריסה ניידת גמישה להגנה על ערים ומתקנים אסטרטגיים.</p>
-                </div>
-              </div>
-
-              <div class="algorithm-highlight-card">
-                <div class="algo-header">
-                  <span class="algo-icon">🧠</span>
-                  <strong>מהפכת ה-PIP: אלגוריתם נקודת פגיעה משוערת</strong>
-                </div>
-                <p class="algo-text">
-                  בניגוד למערכות הגנה קלאסיות שיורות על כל מטרה, כיפת ברזל מיירטת רק רקטות שמאיימות לפגוע בפוליגון עירוני. רקטות שמסלולן נופל בשטחים חקלאיים, דיונות או בים <strong>אינן מיורטות כלל</strong>. עיקרון זה מציל מלאי מיירטים קריטי!
-                </p>
-              </div>
-            </div>
+        <!-- עמודה שמאלית (65%): מרחב חזותי פתוח לקנבס הסימולציה -->
+        <div class="open-visual-column">
+          <div class="canvas-clean-container">
+            <canvas id="iron-dome-canvas" width="680" height="360"></canvas>
+            <div class="canvas-hint-tag">מכ"ם EL/M-2084 // הדמיית יירוט טמי"ר חיה</div>
           </div>
-
-          <!-- סימולטור יירוט חי: אלגוריתם PIP -->
-          <div class="deck-card interactive-card">
-            <div class="card-header">
-              <span class="card-icon">🚀</span>
-              <h2>סימולטור יירוט חי: הבחנה בין שטח פתוח לעיר</h2>
-              <span class="live-badge">סימולטור פעיל</span>
-            </div>
-            <div class="card-body">
-              <div class="demo-controls-bar">
-                <button id="btn-salvo-iron-dome" class="deck-action-btn btn-primary-prominent">
-                  <span>🚀</span> הפעל שיגור מטח (3 רקטות)
-                </button>
-                <button id="btn-toggle-pip" class="deck-action-btn btn-toggle active">
-                  <span>סינון אזורי פגיעה (PIP):</span> <span id="pip-status-text">פעיל (סלקטיבי)</span>
-                </button>
-                <button id="btn-reset-iron-dome" class="deck-action-btn btn-secondary">
-                  <span>🔄</span> איפוס
-                </button>
-              </div>
-
-              <!-- משטח קנבס לסימולציה -->
-              <div class="canvas-stage-wrapper">
-                <canvas id="iron-dome-canvas" width="600" height="320"></canvas>
-                <div class="canvas-caption">מכ"ם EL/M-2084 // תמונת מכ"ם חיה ויירוט טמי"ר בזמן אמת</div>
-              </div>
-
-              <!-- פאנל נתונים מהסימולציה -->
-              <div class="simulation-metrics-bar">
-                <div class="metric-col">
-                  <span class="metric-title">רקטות שזוהו:</span>
-                  <span id="stat-threats" class="metric-number text-crimson">0</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">שטח פתוח (התעלמות):</span>
-                  <span id="stat-ignored" class="metric-number text-amber">0</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">שטח עירוני (יירוט):</span>
-                  <span id="stat-engaged" class="metric-number text-cyan">0</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">יירוטים מוצלחים:</span>
-                  <span id="stat-neutralized" class="metric-number text-emerald">0</span>
-                </div>
-              </div>
-            </div>
+          <div class="controls-pill-row">
+            <button id="btn-salvo-iron-dome" class="btn-action-primary">
+              <span>🚀 הפעל שיגור מטח ובצע יירוט</span>
+            </button>
+            <button id="btn-toggle-pip" class="btn-action-toggle active">
+              <span>סינון PIP: פעיל (סלקטיבי)</span>
+            </button>
+            <button id="btn-reset-iron-dome" class="btn-action-secondary">
+              <span>איפוס</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- שקופית 3: קלע דוד (שכבה שנייה) וטיל הסטאנר -->
+    <!-- שקופית 3: קלע דוד (פריסת 2 עמודות RTL) -->
     <section id="slide-2" class="slide" data-slide="2">
-      <div class="slide-content">
-        <div class="slide-header">
-          <span class="module-tag">שקופית 03 // שכבה שנייה</span>
-          <h1 class="slide-title">קלע דוד: נטרול רקטות כבדות וטילי שיוט</h1>
-          <p class="slide-desc">
-            רפאל וריית'יאון (ארה"ב) • מיירט "סטאנר" • מהירות מאך 7.5 ויירוט קינטי ישיר (Hit-to-Kill)
-          </p>
+      <div class="slide-grid-2col">
+        <div class="glass-sidebar">
+          <span class="module-tag">שכבה שנייה</span>
+          <h2 class="slide-title">קלע דוד</h2>
+          <p class="slide-desc">נטרול טילי שיוט ורקטות כבדות באמצעות ראש ביות כפול</p>
+
+          <ul class="key-points-list">
+            <li>
+              <strong>טכנולוגיית "אף הדולפין":</strong> ראש ביות א-סימטרי המשלב מכ"ם פעיל (RF) וחיישן אופטי-תרמי (IIR) במקביל.
+            </li>
+            <li>
+              <strong>חסינות מלאה ללוחמה אלקטרונית:</strong> כאשר ערוץ המכ"ם משובש, החיישן התרמי שומר על נעילה מלאה.
+            </li>
+            <li>
+              <strong>יירוט קינטי ישיר (Hit-to-Kill):</strong> השמדת המטרה בפגיעת ברזל-בברזל מדויקת במהירות מאך 7.5.
+            </li>
+          </ul>
         </div>
 
-        <div class="slide-grid">
-          <div class="deck-card briefing-card">
-            <div class="card-header">
-              <span class="card-icon">🐬</span>
-              <h2>מיירט ה"סטאנר": חדשנות "אף הדולפין" הכפול</h2>
-            </div>
-            <div class="card-body">
-              <p class="card-lead-text">
-                חרטום הטיל מעוצב במבנה אסימטרי ייחודי דמוי "אף דולפין", המאפשר שיכון שני חיישנים הפועלים בו-זמנית ומעניקים חסינות מוחלטת מלוחמה אלקטרונית:
-              </p>
-              <ul class="key-points-list">
-                <li>
-                  <strong>ראש ביות מכ"מי פעיל (RF):</strong> עוקב אחר מטרות בכל תנאי מזג אוויר, עננות כבדה, גשם ואבק ממרחקים עצומים.
-                </li>
-                <li>
-                  <strong>ראש ביות אלקטרו-אופטי רב-צבעי (IIR):</strong> מזהה במדויק את החתימה התרמית של המטרה ודוחה נורי הטעיה ומוץ.
-                </li>
-                <li>
-                  <strong>פגיעה קינטית ישירה (Hit-to-Kill):</strong> השמדת המטרה ללא צורך בחומר נפץ, באמצעות פגיעת "ברזל בברזל" המבטיחה ריסוק מלא של ראש הקרב.
-                </li>
-              </ul>
-
-              <div class="performance-metrics-grid">
-                <div class="perf-box">
-                  <span class="perf-val text-amber">40–300 ק"מ</span>
-                  <span class="perf-label">טווח יירוט משופר</span>
-                </div>
-                <div class="perf-box">
-                  <span class="perf-val text-cyan">מאך 7.5</span>
-                  <span class="perf-label">מהירות ריצה סופית</span>
-                </div>
-                <div class="perf-box">
-                  <span class="perf-val text-emerald">מנוע דו-שלבי</span>
-                  <span class="perf-label">דלק מוצק בדחף כפול</span>
-                </div>
-                <div class="perf-box">
-                  <span class="perf-val text-amber">חסינות ל"א מלאה</span>
-                  <span class="perf-label">היתוך RF + IIR</span>
-                </div>
-              </div>
-            </div>
+        <div class="open-visual-column">
+          <div class="canvas-clean-container">
+            <canvas id="davids-sling-canvas" width="680" height="360"></canvas>
+            <div class="canvas-hint-tag">ערוץ מכ"ם RF + ערוץ אופטי תרמי IIR</div>
           </div>
-
-          <div class="deck-card interactive-card">
-            <div class="card-header">
-              <span class="card-icon">🔬</span>
-              <h2>סימולטור ראש ביות כפול מול טיל שיוט מתמרן</h2>
-              <span class="live-badge">הדגמת היתוך חיישנים</span>
-            </div>
-            <div class="card-body">
-              <p class="interactive-instruction">צפה כיצד מיירט הסטאנר שומר על נעילה מול טיל שיוט מתמרן גם בעת הפעלת חסימה אלקטרונית (ל"א):</p>
-              
-              <div class="demo-controls-bar">
-                <button id="btn-toggle-ecm" class="deck-action-btn btn-toggle">
-                  <span>חסימה אלקטרונית (ל"א):</span> <span id="ecm-status-text">כבויה</span>
-                </button>
-                <button id="btn-fire-stunner" class="deck-action-btn btn-primary-prominent">
-                  <span>🚀</span> שגר מיירט סטאנר (Hit-to-Kill)
-                </button>
-                <button id="btn-reset-davids" class="deck-action-btn btn-secondary">
-                  <span>🔄</span> איפוס
-                </button>
-              </div>
-
-              <div class="canvas-stage-wrapper">
-                <canvas id="davids-sling-canvas" width="600" height="320"></canvas>
-                <div class="canvas-caption">מערכת היתוך נתונים: ערוץ מכ"ם RF + ערוץ אופטי תרמי IIR</div>
-              </div>
-
-              <div class="simulation-metrics-bar">
-                <div class="metric-col">
-                  <span class="metric-title">ביטחון ערוץ מכ"ם RF:</span>
-                  <span id="stat-rf-confidence" class="metric-number text-cyan">98%</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">נעילה תרמית אופטית IIR:</span>
-                  <span id="stat-iir-lock" class="metric-number text-emerald">נעול (100%)</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">מהירות סגירה:</span>
-                  <span class="metric-number text-amber">מאך 7.5</span>
-                </div>
-              </div>
-            </div>
+          <div class="controls-pill-row">
+            <button id="btn-fire-stunner" class="btn-action-primary">
+              <span>🚀 שגר מיירט סטאנר (Hit-to-Kill)</span>
+            </button>
+            <button id="btn-toggle-ecm" class="btn-action-toggle">
+              <span id="ecm-btn-text">חסימת ל"א: כבויה</span>
+            </button>
+            <button id="btn-reset-davids" class="btn-action-secondary">
+              <span>איפוס</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- שקופית 4: חץ 2 וחץ 3 - יירוט בחלל מחוץ לאטמוספירה -->
+    <!-- שקופית 4: חץ 2 וחץ 3 (פריסת 2 עמודות RTL) -->
     <section id="slide-3" class="slide" data-slide="3">
-      <div class="slide-content">
-        <div class="slide-header">
-          <span class="module-tag">שקופית 04 // שכבות 3 ו-4</span>
-          <h1 class="slide-title">חץ 2 וחץ 3: מטריית ההגנה הבליסטית ויירוט בחלל</h1>
-          <p class="slide-desc">
-            התעשייה האווירית (מלמ) ובואינג / סוכנות ההגנה האמריקאית (MDA) • היירוט המבצעי הראשון בהיסטוריה בחלל
-          </p>
+      <div class="slide-grid-2col">
+        <div class="glass-sidebar">
+          <span class="module-tag">שכבות 3 ו-4</span>
+          <h2 class="slide-title">חץ 2 וחץ 3</h2>
+          <p class="slide-desc">מטריית ההגנה הבליסטית והיירוט הראשון בהיסטוריה בחלל</p>
+
+          <ul class="key-points-list">
+            <li>
+              <strong>חץ 3 – יירוט בחלל:</strong> השמדת טילים בליסטיים מחוץ לאטמוספירה (מעל 100 ק"מ) הרחק מאוכלוסייה.
+            </li>
+            <li>
+              <strong>רכב השמדה קינטי (KKV):</strong> ניהוג וקטורי בחלל ופגיעה ישירה במהירות סגירה עצומה.
+            </li>
+            <li>
+              <strong>חץ 2 – שכבת הגיבוי:</strong> יירוט באטמוספירה העליונה בשלב הצלילה הסופית של המטרה.
+            </li>
+          </ul>
         </div>
 
-        <div class="slide-grid">
-          <div class="deck-card briefing-card">
-            <div class="card-header">
-              <span class="card-icon">🌌</span>
-              <h2>הבחנה אסטרטגית: חץ 2 מול חץ 3</h2>
-            </div>
-            <div class="card-body">
-              <div class="arrow-dual-comparison">
-                <div class="arrow-system-box">
-                  <h3 class="system-title text-amber">טיל חץ 2 (באטמוספירה העליונה)</h3>
-                  <ul class="system-specs-list">
-                    <li><strong>סביבת יירוט:</strong> סטרטוספירה/מזוספירה (גובה: 10–50 ק"מ).</li>
-                    <li><strong>מנגנון השמדה:</strong> ראש קרב רסס כיווני עוצמתי המשמיד את הטיל בשלב הצלילה הסופית.</li>
-                    <li><strong>איומים עיקריים:</strong> טילים בליסטיים לטווח בינוני (סקאד, שיהאב 3).</li>
-                  </ul>
-                </div>
-                <div class="arrow-system-box">
-                  <h3 class="system-title text-cyan">טיל חץ 3 (מחוץ לאטמוספירה / חלל)</h3>
-                  <ul class="system-specs-list">
-                    <li><strong>סביבת יירוט:</strong> ואקום החלל (מעל 100 ק"מ, מעבר לקו קרמן).</li>
-                    <li><strong>מנגנון השמדה:</strong> רכב השמדה קינטי נפרד (KKV) בעל מנועי ניהוג וקטוריים בחלל.</li>
-                    <li><strong>הישג היסטורי:</strong> נובמבר 2023 - יירוט מבצעי ראשון אי-פעם של טיל בליסטי מחוץ לאטמוספירה.</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="radar-box-greenpine">
-                <strong>מכ"ם "אורן ירוק משופר" (Super Green Pine):</strong> מכ"ם AESA ענק בטווח גילוי של מעל 900 ק"מ המבחין באמצעות אלגוריתמי מיקרו-דופלר בין ראש הקרב האמיתי לבין שברי מנוע והטעיות דמה בחלל.
-              </div>
-            </div>
+        <div class="open-visual-column">
+          <div class="slider-clean-bar">
+            <span>גובה שיא הטיל התוקף (אפוגיאה):</span>
+            <span id="apogee-slider-val" class="text-cyan font-bold">120 ק"מ (בחלל מעל קו קרמן)</span>
           </div>
+          <input id="slider-apogee" type="range" min="30" max="160" value="120" step="5" class="clean-slider">
 
-          <div class="deck-card interactive-card">
-            <div class="card-header">
-              <span class="card-icon">🚀</span>
-              <h2>מדמיין גובה אפוגיאה ויירוט בחלל (חץ 3)</h2>
-              <span class="live-badge">פרופיל גובה</span>
-            </div>
-            <div class="card-body">
-              <p class="interactive-instruction">שנה את גובה שיא המסלול (אפוגיאה) כדי לראות את גבולות האטמוספירה ומעבר היירוט לחלל:</p>
-
-              <div class="slider-wrapper-deck">
-                <div class="slider-header-row">
-                  <span>גובה שיא של הטיל התוקף (אפוגיאה):</span>
-                  <span id="apogee-slider-val" class="slider-val-highlight">120 ק"מ (בחלל מעל קו קרמן)</span>
-                </div>
-                <input id="slider-apogee" type="range" min="30" max="160" value="120" step="5" class="deck-slider">
-                <div class="slider-ticks-row">
-                  <span>30 ק"מ (סטרטוספירה)</span>
-                  <span>50 ק"מ (מזוספירה)</span>
-                  <span class="tick-karman">100 ק"מ (קו קרמן - גבול החלל)</span>
-                  <span class="tick-space">160 ק"מ (חלל עמוק)</span>
-                </div>
-              </div>
-
-              <div class="demo-controls-bar">
-                <button id="btn-fire-arrow" class="deck-action-btn btn-primary-prominent">
-                  <span>🚀</span> הדגם שיגור ויירוט חץ 3 בחלל (KKV)
-                </button>
-                <button id="btn-reset-arrow" class="deck-action-btn btn-secondary">
-                  <span>🔄</span> איפוס
-                </button>
-              </div>
-
-              <div class="canvas-stage-wrapper">
-                <canvas id="arrow-apogee-canvas" width="600" height="280"></canvas>
-                <div class="canvas-caption">פרופיל יירוט קינטי מחוץ לאטמוספירה // רכב השמדה KKV</div>
-              </div>
-
-              <div class="simulation-metrics-bar">
-                <div class="metric-col">
-                  <span class="metric-title">מערכת מוקצית:</span>
-                  <span id="arrow-assigned-system" class="metric-number text-cyan">חץ 3 (רכב השמדה בחלל)</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">רכב יירוט KKV:</span>
-                  <span id="arrow-kkv-status" class="metric-number text-emerald">דחף וקטורי פעיל</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">מהירות התנגשות:</span>
-                  <span class="metric-number text-amber">>3,000 מטר/שנייה</span>
-                </div>
-              </div>
-            </div>
+          <div class="canvas-clean-container">
+            <canvas id="arrow-apogee-canvas" width="680" height="290"></canvas>
+            <div class="canvas-hint-tag">פרופיל יירוט קינטי מחוץ לאטמוספירה</div>
+          </div>
+          <div class="controls-pill-row">
+            <button id="btn-fire-arrow" class="btn-action-primary">
+              <span>🚀 הדגם שיגור ויירוט חץ 3 בחלל (KKV)</span>
+            </button>
+            <button id="btn-reset-arrow" class="btn-action-secondary">
+              <span>איפוס</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- שקופית 5: מערך השליטה האחוד (C4I) וקרן ברזל -->
+    <!-- שקופית 5: מגן אור וקרן ברזל (פריסת 2 עמודות RTL) -->
     <section id="slide-4" class="slide" data-slide="4">
-      <div class="slide-content">
-        <div class="slide-header">
-          <span class="module-tag">שקופית 05 // אינטגרציית מערכות</span>
-          <h1 class="slide-title">מערך השליטה והבקרה (C4I) ומהפכת הלייזר</h1>
-          <p class="slide-desc">
-            היתוך חיישנים מקצה לקצה בזמן אמת, הקצאת מטרות ממוחשבת והמהפכה הכלכלית של "מגן אור" (קרן ברזל)
-          </p>
+      <div class="slide-grid-2col">
+        <div class="glass-sidebar">
+          <span class="module-tag">נשק אנרגיה מוכוונת</span>
+          <h2 class="slide-title">מגן אור (קרן ברזל)</h2>
+          <p class="slide-desc">שבירת משוואת העלויות – יירוט בלייזר במהירות האור</p>
+
+          <ul class="key-points-list">
+            <li>
+              <strong>עלות אפסית ליירוט:</strong> כ-3.50 דולר בלבד לכל יירוט (עלות חשמל) לעומת עשרות אלפי דולרים לטיל מיירט.
+            </li>
+            <li>
+              <strong>מחסנית בלתי נגמרת:</strong> הגנה רציפה וללא הגבלת תחמושת מפני נחילי רחפנים ופצמ"רים קצרי טווח.
+            </li>
+            <li>
+              <strong>היתוך שו"ב אוטונומי:</strong> מערכת הפיקוד מקצה אוטומטית את הנשק הזול והאופטימלי ביותר לכל איום.
+            </li>
+          </ul>
         </div>
 
-        <div class="slide-grid">
-          <div class="deck-card briefing-card">
-            <div class="card-header">
-              <span class="card-icon">⚡</span>
-              <h2>נשק אנרגיה מוכוונת מהדור הבא: "מגן אור" (קרן ברזל)</h2>
-            </div>
-            <div class="card-body">
-              <div class="laser-spotlight-box">
-                <div class="laser-tag-badge">לייזר סיב אופטי 100kW</div>
-                <p class="laser-spotlight-text">
-                  מערכת הלייזר מתוצרת רפאל מציגה פריצת דרך עולמית: <strong>עלות של כ-3.50 דולר בלבד לכל יירוט (עלות חשמל בלבד)</strong>, מחסנית בלתי נגמרת, ויירוט במהירות האור של רחפנים, פצמ"רים ורקטות קצרות.
-                </p>
-              </div>
-
-              <div class="cost-table-card">
-                <h3 class="cost-table-title">💰 המדרג הכלכלי של עלות ליירוט</h3>
-                <div class="cost-rows-list">
-                  <div class="cost-row-item">
-                    <span class="cost-col-name text-laser">קרן ברזל (לייזר)</span>
-                    <span class="cost-col-price text-emerald">כ-3.50 דולר לירייה</span>
-                    <span class="cost-col-target">פצמ"רים ונחילי רחפנים</span>
-                  </div>
-                  <div class="cost-row-item">
-                    <span class="cost-col-name text-emerald">כיפת ברזל (טמי"ר)</span>
-                    <span class="cost-col-price text-cyan">כ-50,000 דולר לטיל</span>
-                    <span class="cost-col-target">רקטות ארטילריות וכטב"מים</span>
-                  </div>
-                  <div class="cost-row-item">
-                    <span class="cost-col-name text-amber">קלע דוד (סטאנר)</span>
-                    <span class="cost-col-price text-amber">כמיליון דולר לטיל</span>
-                    <span class="cost-col-target">טילי שיוט ורקטות כבדות</span>
-                  </div>
-                  <div class="cost-row-item">
-                    <span class="cost-col-name text-cyan">חץ 2 וחץ 3</span>
-                    <span class="cost-col-price text-crimson">2.5–3 מיליון דולר לטיל</span>
-                    <span class="cost-col-target">טילים בליסטיים אסטרטגיים</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="open-visual-column">
+          <div class="canvas-clean-container">
+            <canvas id="laser-demo-canvas" width="680" height="360"></canvas>
+            <div class="canvas-hint-tag">לייזר סיב אופטי 100kW // יירוט נחילי כטב"ם ופצמ"ר</div>
           </div>
-
-          <div class="deck-card interactive-card">
-            <div class="card-header">
-              <span class="card-icon">🎮</span>
-              <h2>קונסולת ניהול קרב רב-זירתית (סימולציית תקיפה משולבת)</h2>
-              <span class="live-badge">תרחיש ניהול אש</span>
-            </div>
-            <div class="card-body">
-              <p class="interactive-instruction">הפעל מתקפה בו-זמנית מגוונת וצפה כיצד מערכת השו"ב מקצה את שכבת ההגנה הזולה והאפקטיבית ביותר:</p>
-
-              <div class="demo-controls-bar">
-                <button id="btn-spawn-scenario" class="deck-action-btn btn-primary-prominent">
-                  <span>⚠️</span> הפעל מתקפה רב-ערוצית משולבת
-                </button>
-                <button id="btn-auto-allocate" class="deck-action-btn btn-toggle active">
-                  <span>הקצאת שו"ב אוטומטית:</span> <span id="bmc-status-text">פעילה</span>
-                </button>
-                <button id="btn-reset-scenario" class="deck-action-btn btn-secondary">
-                  <span>🔄</span> איפוס
-                </button>
-              </div>
-
-              <div class="scenario-vectors-board">
-                <div class="vector-card" data-vector="1">
-                  <div class="vector-header">
-                    <span class="vector-tag">אפיק א'</span>
-                    <span class="vector-threat text-crimson">נחיל 5 כטב"מים מתאבדים</span>
-                    <span class="vector-alt">גובה: 400 מ'</span>
-                  </div>
-                  <div class="vector-body">
-                    <span class="vector-allocated text-emerald">הוקצה: מגן אור (לייזר רב-עוצמה)</span>
-                    <span class="vector-cost">עלות יירוט כוללת: $17.50</span>
-                  </div>
-                </div>
-
-                <div class="vector-card" data-vector="2">
-                  <div class="vector-header">
-                    <span class="vector-tag">אפיק ב'</span>
-                    <span class="vector-threat text-crimson">טיל שיוט מנמיך טוס</span>
-                    <span class="vector-alt">גובה: 150 מ' (מתמרן)</span>
-                  </div>
-                  <div class="vector-body">
-                    <span class="vector-allocated text-amber">הוקצה: קלע דוד (סטאנר Hit-to-Kill)</span>
-                    <span class="vector-cost">עלות: 1,000,000 דולר</span>
-                  </div>
-                </div>
-
-                <div class="vector-card" data-vector="3">
-                  <div class="vector-header">
-                    <span class="vector-tag">אפיק ג'</span>
-                    <span class="vector-threat text-crimson">טיל בליסטי היפר-סוני</span>
-                    <span class="vector-alt">גובה: 130 ק"מ (בחלל)</span>
-                  </div>
-                  <div class="vector-body">
-                    <span class="vector-allocated text-cyan">הוקצה: חץ 3 (רכב השמדה קינטי KKV)</span>
-                    <span class="vector-cost">עלות: 2,800,000 דולר</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="simulation-metrics-bar">
-                <div class="metric-col">
-                  <span class="metric-title">התאמה לדוקטרינה:</span>
-                  <span class="metric-number text-emerald">100% אופטימלי</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">עלות הגנה כוללת:</span>
-                  <span id="stat-scenario-cost" class="metric-number text-amber">$3,800,017.50</span>
-                </div>
-                <div class="metric-sep"></div>
-                <div class="metric-col">
-                  <span class="metric-title">תוצאת סיכול:</span>
-                  <span id="stat-scenario-result" class="metric-number text-cyan">כל האיומים סוכלו בהצלחה</span>
-                </div>
-              </div>
-            </div>
+          <div class="controls-pill-row">
+            <button id="btn-fire-laser" class="btn-action-primary btn-laser">
+              <span>⚡ הפעל קרן לייזר ליירוט נחיל</span>
+            </button>
+            <button id="btn-reset-laser" class="btn-action-secondary">
+              <span>איפוס</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- שקופית 6: סיכום, אימוץ בינלאומי ומקורות אקדמיים -->
+    <!-- שקופית 6: סיכום והשפעה גלובלית (פריסת 2 עמודות RTL) -->
     <section id="slide-5" class="slide" data-slide="5">
-      <div class="slide-content">
-        <div class="slide-header">
-          <span class="module-tag">שקופית 06 // סיכום והשפעה גלובלית</span>
-          <h1 class="slide-title">תובנות אסטרטגיות, אימוץ בינלאומי ומקורות אקדמיים</h1>
-          <p class="slide-desc">
-            מהישרדות לאומית להגנת אירופה ונאט"ו: עסקת חץ 3 בגרמניה, פוליגונים אזרחיים ומקורות מחקר מאומתים
-          </p>
+      <div class="slide-grid-2col">
+        <div class="glass-sidebar">
+          <span class="module-tag">השפעה בינלאומית</span>
+          <h2 class="slide-title">מבט לעתיד וסיכום</h2>
+          <p class="slide-desc">מהישרדות לאומית להובלה טכנולוגית עולמית</p>
+
+          <ul class="key-points-list">
+            <li>
+              <strong>עסקת חץ 3 בגרמניה:</strong> עסקת ענק של כ-3.5 מיליארד יורו המהווה את עמוד השדרה של הגנת אירופה (ESSI).
+            </li>
+            <li>
+              <strong>אימוץ בנאט"ו:</strong> רכישת "קלע דוד" על ידי פינלנד ואינטגרציה במערכי ההגנה של מדינות המערב.
+            </li>
+            <li>
+              <strong>מוכנות לאיומי המחר:</strong> פיתוח מתמיד מול גולשים היפר-סוניים ומערכי חימוש מתקדמים.
+            </li>
+          </ul>
         </div>
 
-        <div class="slide-grid">
-          <div class="deck-card briefing-card">
-            <div class="card-header">
-              <span class="card-icon">🌍</span>
-              <h2>ההשפעה הגלובלית והשותפויות הבינלאומיות</h2>
+        <div class="open-visual-column">
+          <div class="summary-matrix-card">
+            <div class="comp-item">
+              <span class="comp-tier text-laser">מגן אור</span>
+              <span class="comp-desc">לייזר רב-עוצמה • רחפנים ופצמ"רים</span>
+              <span class="comp-price text-emerald">~$3.50</span>
             </div>
-            <div class="card-body">
-              <ul class="key-points-list">
-                <li>
-                  <strong>גרמניה ויוזמת "מגן השמיים האירופי" (ESSI):</strong> בשנת 2023 חתמה גרמניה על עסקת ענק של כ-3.5 מיליארד יורו לרכישת חץ 3, שיהווה את מטריית ההגנה הבליסטית האסטרטגית של מרכז אירופה.
-                </li>
-                <li>
-                  <strong>הצטיידות פינלנד במערכת "קלע דוד":</strong> מיד לאחר הצטרפותה לנאט"ו, בחרה פינלנד בקלע דוד להגנה מפני טילי שיוט ורקטות כבדות.
-                </li>
-                <li>
-                  <strong>חיבור לפיקוד העורף ופוליגונים מדויקים:</strong> המכ"מים מקושרים ישירות לאלגוריתמי התרעה מבוססי פוליגונים, ומפעילים אזעקות רק בשכונות ספציפיות במקום להשבית מחוזות שלמים.
-                </li>
-              </ul>
-
-              <div class="citations-action-card">
-                <span class="cit-title">📚 מקורות מחקר אקדמיים ודוחות רשמיים:</span>
-                <p class="cit-sub">כל הנתונים, הטווחים וההגדרות במצגת זו מבוססים על ספרות ביטחונית גלויה ומחקרים רשמיים:</p>
-                <a href="#modal-citations" id="btn-open-citations" class="deck-action-btn btn-primary-prominent btn-full">
-                  <span>📖</span> פתח רשימת מקורות אקדמיים ומסמכי מדיניות מלאה
-                </a>
-              </div>
+            <div class="comp-item">
+              <span class="comp-tier text-emerald">כיפת ברזל</span>
+              <span class="comp-desc">שכבה ראשונה • רקטות וכטב"מים (עד 70 ק"מ)</span>
+              <span class="comp-price text-cyan">~$50,000</span>
+            </div>
+            <div class="comp-item">
+              <span class="comp-tier text-amber">קלע דוד</span>
+              <span class="comp-desc">שכבה שנייה • טילי שיוט ורקטות כבדות (עד 300 ק"מ)</span>
+              <span class="comp-price text-amber">~$1,000,000</span>
+            </div>
+            <div class="comp-item">
+              <span class="comp-tier text-cyan">חץ 2 ו-3</span>
+              <span class="comp-desc">שכבות 3-4 • טילים בליסטיים בחלל (עד 2,400 ק"מ)</span>
+              <span class="comp-price text-rose">~$2.5M - $3M</span>
             </div>
           </div>
-
-          <div class="deck-card interactive-card">
-            <div class="card-header">
-              <span class="card-icon">📊</span>
-              <h2>מטריצת השוואה מקיפה בין שכבות ההגנה</h2>
-              <span class="live-badge">טבלה מסננת</span>
-            </div>
-            <div class="card-body">
-              <div class="matrix-filter-bar">
-                <button class="filter-tab-btn active" data-filter="all">כל השכבות (5)</button>
-                <button class="filter-tab-btn" data-filter="laser">קרן ברזל</button>
-                <button class="filter-tab-btn" data-filter="vshorad">כיפת ברזל</button>
-                <button class="filter-tab-btn" data-filter="medium">קלע דוד</button>
-                <button class="filter-tab-btn" data-filter="exo">חץ 2 / 3</button>
-              </div>
-
-              <div class="table-container-deck">
-                <table class="deck-data-table" id="defense-matrix-table">
-                  <thead>
-                    <tr>
-                      <th>מערכת</th>
-                      <th>גובה יירוט</th>
-                      <th>טווח מבצעי</th>
-                      <th>איומי מטרה</th>
-                      <th>הנחיה וראש ביות</th>
-                      <th>עלות משוערת</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr data-tier="laser">
-                      <td><strong class="text-laser">קרן ברזל (מגן אור)</strong></td>
-                      <td>0–2 ק"מ</td>
-                      <td>עד 7–10 ק"מ</td>
-                      <td>פצמ"רים, רחפנים</td>
-                      <td>לייזר מצב מוצק אופטי</td>
-                      <td class="text-emerald">~$3.50 לירייה</td>
-                    </tr>
-                    <tr data-tier="vshorad">
-                      <td><strong class="text-emerald">כיפת ברזל</strong></td>
-                      <td>0–10 ק"מ</td>
-                      <td>4–70 ק"מ</td>
-                      <td>רקטות, פצמ"רים, כטב"ם</td>
-                      <td>מכ"ם AESA + מרעום קרבה</td>
-                      <td class="text-cyan">~$50,000</td>
-                    </tr>
-                    <tr data-tier="medium">
-                      <td><strong class="text-amber">קלע דוד</strong></td>
-                      <td>עד 40 ק"מ</td>
-                      <td>40–300 ק"מ</td>
-                      <td>רקטות כבדות, טילי שיוט</td>
-                      <td>כפול RF + אינפרא-אדום (IIR)</td>
-                      <td class="text-amber">~$1,000,000</td>
-                    </tr>
-                    <tr data-tier="exo">
-                      <td><strong class="text-cyan">טיל חץ 2</strong></td>
-                      <td>10–50 ק"מ</td>
-                      <td>100+ ק"מ</td>
-                      <td>טילים בליסטיים (צלילה)</td>
-                      <td>רסס כיווני + מכ"ם פעיל</td>
-                      <td class="text-crimson">~$2,000,000</td>
-                    </tr>
-                    <tr data-tier="exo">
-                      <td><strong class="text-cyan">טיל חץ 3</strong></td>
-                      <td>>100 ק"מ (בחלל)</td>
-                      <td>כ-2,400 ק"מ</td>
-                      <td>טילים בליסטיים בחלל / אב"כ</td>
-                      <td>רכב השמדה קינטי KKV בחלל</td>
-                      <td class="text-crimson">~$3,000,000</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div class="controls-pill-row">
+            <button id="btn-open-citations" class="btn-action-primary btn-full-width">
+              <span>📚 פתח רשימת מקורות אקדמיים ומסמכי מדיניות</span>
+            </button>
           </div>
         </div>
       </div>
@@ -724,13 +299,11 @@
 
   </main>
 
-  <!-- חלון מקורות אקדמיים (מודאל מרווח) -->
+  <!-- חלון מקורות אקדמיים (מודאל) -->
   <aside id="modal-citations" class="deck-modal" aria-hidden="true">
     <div class="deck-modal-dialog">
       <div class="deck-modal-header">
-        <h2 class="modal-heading">
-          <span>📚</span> מקורות אקדמיים, דוחות משרד הביטחון ומסמכי מחקר
-        </h2>
+        <h3 class="modal-heading">מקורות מחקר אקדמיים ודוחות רשמיים</h3>
         <button id="btn-close-citations" class="modal-close-cross">&times;</button>
       </div>
       <div class="deck-modal-body">
@@ -748,50 +321,40 @@
         </div>
         <div class="citation-card">
           <div class="cit-agency">רפאל מערכות לחימה מתקדמות וריית'יאון טכנולוגיות</div>
-          <p class="cit-quote">"מיירט הסטאנר: ביצועי היתוך חיישנים כפולים בסביבת לוחמה אלקטרונית עתירת הפרעות." כנס AIAA למדעי התעופה והחלל.</p>
-        </div>
-        <div class="citation-card">
-          <div class="cit-agency">התעשייה האווירית לישראל (מלמ) וסוכנות ההגנה האמריקאית (MDA)</div>
-          <p class="cit-quote">"יירוט טילים בליסטיים מחוץ לאטמוספירה: דוחות ניסויי טיסה של מערכת נשק חץ 3." Joint Program Office Technical Reports.</p>
+          <p class="cit-quote">"מיירט הסטאנר: ביצועי היתוך חיישנים בסביבת ל"א." כנס AIAA למדעי התעופה והחלל.</p>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- סרגל ניווט תחתון נוח במיוחד למרצה (Presenter Friendly) -->
+  <!-- סרגל ניווט תחתון נוח למרצה -->
   <footer class="deck-footer">
     <div class="footer-progress-track">
       <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
     </div>
 
     <div class="footer-content">
-      <!-- כפתורי שקופיות קודם / הבא -->
       <div class="footer-nav-buttons">
         <button id="btn-prev-slide" class="deck-nav-btn" disabled aria-label="שקופית קודמת">
-          <span class="nav-arrow">◀</span> שקופית קודמת
-        </button>
-        <button id="btn-next-slide" class="deck-nav-btn deck-nav-btn-next" aria-label="שקופית הבאה">
-          שקופית הבאה <span class="nav-arrow">▶</span>
+          <span>◀ שקופית קודמת</span>
         </button>
       </div>
 
-      <!-- נקודות מעבר ישיר בין שקופיות -->
-      <div class="footer-dots-nav">
-        <nav class="dots-cluster" id="step-indicators" aria-label="ניווט ישיר לשקופית">
-          <button class="dot-btn active" data-index="0" title="שקופית 01: תפיסה אסטרטגית ומפת איומים">01</button>
-          <button class="dot-btn" data-index="1" title="שקופית 02: כיפת ברזל (שכבה ראשונה)">02</button>
-          <button class="dot-btn" data-index="2" title="שקופית 03: קלע דוד (שכבה שנייה)">03</button>
-          <button class="dot-btn" data-index="3" title="שקופית 04: חץ 2 וחץ 3 (שכבות 3 ו-4)">04</button>
-          <button class="dot-btn" data-index="4" title="שקופית 05: מערך שו&quot;ב ומגן אור">05</button>
-          <button class="dot-btn" data-index="5" title="שקופית 06: סיכום ומקורות אקדמיים">06</button>
+      <div class="footer-center">
+        <nav class="dots-cluster" id="step-indicators" aria-label="ניווט ישיר">
+          <button class="dot-btn active" data-index="0" title="שקופית 1: מיצג 3D מלא"></button>
+          <button class="dot-btn" data-index="1" title="שקופית 2: כיפת ברזל"></button>
+          <button class="dot-btn" data-index="2" title="שקופית 3: קלע דוד"></button>
+          <button class="dot-btn" data-index="3" title="שקופית 4: חץ 2 וחץ 3"></button>
+          <button class="dot-btn" data-index="4" title="שקופית 5: מגן אור"></button>
+          <button class="dot-btn" data-index="5" title="שקופית 6: סיכום"></button>
         </nav>
       </div>
 
-      <!-- קיצורי מקלדת שימושיים -->
-      <div class="footer-hints">
-        <span class="hint-key"><kbd>→</kbd> / <kbd>←</kbd> / <kbd>רווח</kbd> ניווט</span>
-        <span class="hint-key"><kbd>1–6</kbd> קפיצה</span>
-        <span class="hint-key"><kbd>F</kbd> מסך מלא</span>
+      <div class="footer-left">
+        <button id="btn-next-slide" class="deck-nav-btn deck-nav-btn-next" aria-label="שקופית הבאה">
+          <span>שקופית הבאה ▶</span>
+        </button>
       </div>
     </div>
   </footer>
@@ -800,7 +363,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   
-  <!-- מנוע המצגת והאינטראקטיביות -->
   <script src="app.js"></script>
 </body>
 </html>

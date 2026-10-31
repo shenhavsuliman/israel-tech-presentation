@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * מגן ישראל // בקר מצגת שקופיות אינטראקטיבי (app.js)
- * תמיכה מלאה בעברית, Three.js 3D, וסימולציות יירוט חיות ב-Canvas
+ * תמיכה מלאה בעברית, Three.js 3D Showcase, וסימולציות יירוט חיות
  * ============================================================================
  */
 
@@ -13,121 +13,58 @@
 const AppState = {
   currentSlide: 0,
   totalSlides: 6,
-  is3DActive: false,
   slideNames: [
-    'תפיסת ההגנה ומפת האיומים',
+    'מערך ההגנה הרב-שכבתי',
     'כיפת ברזל (שכבה ראשונה)',
     'קלע דוד (שכבה שנייה)',
     'חץ 2 וחץ 3 (שכבות 3 ו-4)',
-    'מערך שו"ב ומגן אור',
-    'סיכום ומקורות אקדמיים'
+    'מגן אור (קרן ברזל)',
+    'מבט לעתיד וסיכום'
   ]
-};
-
-// נתוני סיווג איומים (שקופית 1)
-const THREAT_DATA = {
-  vshorad: {
-    radar: 'EL/M-2084 MMR (מכ"ם בוהה AESA)',
-    velocity: '400–700 מטר/שנייה (על-קולי)',
-    altitude: '1,000–6,000 מטר (טרופוספירה)',
-    window: '15 עד 45 שניות בלבד!',
-    allocation: 'שכבה 1 // כיפת ברזל (טיל טמי"ר)',
-    colorClass: 'text-emerald'
-  },
-  uav: {
-    radar: 'מכ"ם EL/M-2084 בשילוב ערוץ אופטי מיקרו-דופלר',
-    velocity: '50–150 מטר/שנייה (מאך 0.3 תת-קולי)',
-    altitude: '50–2,500 מטר (טיסה מנמכת טוס עוקבת תוואי)',
-    window: '60 עד 180 שניות',
-    allocation: 'שכבה 1 // מגן אור (לייזר) / כיפת ברזל',
-    colorClass: 'text-laser'
-  },
-  cruise: {
-    radar: 'מכ"ם מוטס (בקרה אווירית) + שו"ב רב-חיישני',
-    velocity: '250–320 מטר/שנייה (מאך 0.85 מתמרן)',
-    altitude: '30–200 מטר (חדירה מתחת לאופק המכ"ם)',
-    window: '45 עד 90 שניות',
-    allocation: 'שכבה 2 // קלע דוד (מיירט סטאנר)',
-    colorClass: 'text-amber'
-  },
-  ballistic: {
-    radar: 'מכ"ם "אורן ירוק משופר" (>900 ק"מ גילוי)',
-    velocity: '2,500–4,200 מטר/שנייה (היפר-סוני מאך 8+)',
-    altitude: '100–160+ ק"מ (בחלל / מחוץ לאטמוספירה)',
-    window: '8 עד 12 דקות בלבד!',
-    allocation: 'שכבות 3 ו-4 // חץ 3 (רכב השמדה בחלל) / חץ 2',
-    colorClass: 'text-cyan'
-  }
 };
 
 // ----------------------------------------------------------------------------
 // 2. תפיסת אלמנטים מה-DOM
 // ----------------------------------------------------------------------------
 const DOM = {
-  // ניווט שקופיות
   slides: document.querySelectorAll('.slide'),
   btnPrev: document.getElementById('btn-prev-slide'),
   btnNext: document.getElementById('btn-next-slide'),
   stepIndicators: document.getElementById('step-indicators'),
   progressBar: document.getElementById('progress-bar'),
   currentSlideCounter: document.getElementById('current-slide-counter'),
-  
-  // פקדי סרגל עליון
-  btnToggle3D: document.getElementById('btn-toggle-3d'),
   btnToggleFullscreen: document.getElementById('btn-toggle-fullscreen'),
-
-  // שקופית 1: סיווג איומים
-  threatButtons: document.querySelectorAll('.threat-select-btn'),
-  threatRadar: document.getElementById('threat-radar'),
-  threatVelocity: document.getElementById('threat-velocity'),
-  threatAltitude: document.getElementById('threat-altitude'),
-  threatWindow: document.getElementById('threat-window'),
-  threatAllocation: document.getElementById('threat-allocation'),
 
   // שקופית 2: כיפת ברזל
   btnSalvoIronDome: document.getElementById('btn-salvo-iron-dome'),
   btnTogglePip: document.getElementById('btn-toggle-pip'),
-  pipStatusText: document.getElementById('pip-status-text'),
   btnResetIronDome: document.getElementById('btn-reset-iron-dome'),
-  statThreats: document.getElementById('stat-threats'),
-  statIgnored: document.getElementById('stat-ignored'),
-  statEngaged: document.getElementById('stat-engaged'),
-  statNeutralized: document.getElementById('stat-neutralized'),
 
   // שקופית 3: קלע דוד
-  btnToggleEcm: document.getElementById('btn-toggle-ecm'),
-  ecmStatusText: document.getElementById('ecm-status-text'),
   btnFireStunner: document.getElementById('btn-fire-stunner'),
+  btnToggleEcm: document.getElementById('btn-toggle-ecm'),
+  ecmBtnText: document.getElementById('ecm-btn-text'),
   btnResetDavids: document.getElementById('btn-reset-davids'),
-  statRfConfidence: document.getElementById('stat-rf-confidence'),
-  statIirLock: document.getElementById('stat-iir-lock'),
 
   // שקופית 4: חץ 3
   sliderApogee: document.getElementById('slider-apogee'),
   apogeeSliderVal: document.getElementById('apogee-slider-val'),
   btnFireArrow: document.getElementById('btn-fire-arrow'),
   btnResetArrow: document.getElementById('btn-reset-arrow'),
-  arrowAssignedSystem: document.getElementById('arrow-assigned-system'),
-  arrowKkvStatus: document.getElementById('arrow-kkv-status'),
 
-  // שקופית 5: שו"ב וקרן ברזל
-  btnSpawnScenario: document.getElementById('btn-spawn-scenario'),
-  btnAutoAllocate: document.getElementById('btn-auto-allocate'),
-  bmcStatusText: document.getElementById('bmc-status-text'),
-  btnResetScenario: document.getElementById('btn-reset-scenario'),
+  // שקופית 5: מגן אור (לייזר)
+  btnFireLaser: document.getElementById('btn-fire-laser'),
+  btnResetLaser: document.getElementById('btn-reset-laser'),
 
-  // שקופית 6: מטריצה ומקורות
-  matrixFilterButtons: document.querySelectorAll('.filter-tab-btn'),
-  matrixRows: document.querySelectorAll('#defense-matrix-table tbody tr'),
+  // שקופית 6: מקורות אקדמיים
   btnOpenCitations: document.getElementById('btn-open-citations'),
   modalCitations: document.getElementById('modal-citations'),
   btnCloseCitations: document.getElementById('btn-close-citations')
 };
 
 // ----------------------------------------------------------------------------
-// 3. ניווט שקופיות חלק ונוח למרצה
+// 3. ניווט שקופיות חלק
 // ----------------------------------------------------------------------------
-
 function goToSlide(targetIndex) {
   if (targetIndex < 0 || targetIndex >= AppState.totalSlides) return;
 
@@ -152,13 +89,13 @@ function goToSlide(targetIndex) {
     }
   });
 
-  // עדכון פס התקדמות עליון
+  // עדכון פס התקדמות
   const progressPercent = (targetIndex / (AppState.totalSlides - 1)) * 100;
   if (DOM.progressBar) {
     DOM.progressBar.style.width = `${progressPercent}%`;
   }
 
-  // עדכון מונה שקופית בעברית
+  // עדכון מונה שקופית
   if (DOM.currentSlideCounter) {
     DOM.currentSlideCounter.textContent = `שקופית ${targetIndex + 1} מתוך ${AppState.totalSlides}`;
   }
@@ -167,7 +104,7 @@ function goToSlide(targetIndex) {
   if (DOM.btnPrev) DOM.btnPrev.disabled = (targetIndex === 0);
   if (DOM.btnNext) DOM.btnNext.disabled = (targetIndex === AppState.totalSlides - 1);
 
-  // הזנקת מנוע השקופית הספציפית
+  // הזנקת מנוע השקופית והזזת מצלמת 3D
   onSlideChanged(targetIndex);
 }
 
@@ -184,75 +121,64 @@ function prevSlide() {
 }
 
 function onSlideChanged(index) {
-  // הפעלת סימולציות ייעודיות לכל שקופית
   switch (index) {
+    case 0:
+      // שקופית 1: מיצג פתיחה 3D במרכז המסך
+      if (window.aegisThreeCamera) {
+        window.aegisThreeCamera.position.set(0, 85, 150);
+        window.aegisThreeCamera.lookAt(0, 20, 0);
+      }
+      break;
     case 1:
+      // שקופית 2: כיפת ברזל
       initIronDomeSim();
+      if (window.aegisThreeCamera) {
+        window.aegisThreeCamera.position.set(45, 30, 75);
+        window.aegisThreeCamera.lookAt(-15, 12, 0);
+      }
       break;
     case 2:
+      // שקופית 3: קלע דוד
       initDavidsSlingSim();
+      if (window.aegisThreeCamera) {
+        window.aegisThreeCamera.position.set(65, 55, 110);
+        window.aegisThreeCamera.lookAt(-20, 20, 0);
+      }
       break;
     case 3:
+      // שקופית 4: חץ 3
       initArrowApogeeSim();
+      if (window.aegisThreeCamera) {
+        window.aegisThreeCamera.position.set(0, 150, 190);
+        window.aegisThreeCamera.lookAt(-25, 35, 0);
+      }
+      break;
+    case 4:
+      // שקופית 5: מגן אור (לייזר)
+      initLaserSim();
+      if (window.aegisThreeCamera) {
+        window.aegisThreeCamera.position.set(30, 25, 60);
+        window.aegisThreeCamera.lookAt(-10, 8, 0);
+      }
+      break;
+    case 5:
+      // שקופית 6: סיכום
+      if (window.aegisThreeCamera) {
+        window.aegisThreeCamera.position.set(80, 80, 140);
+        window.aegisThreeCamera.lookAt(-20, 25, 0);
+      }
       break;
   }
-
-  // עדכון זווית מצלמה ב-Three.js בהתאם לשכבה
-  if (window.aegisThreeCamera) {
-    switch (index) {
-      case 1: // כיפת ברזל (מבט נמוך)
-        setCameraPreset('horizon');
-        break;
-      case 2: // קלע דוד (מבט ביניים)
-        setCameraPreset('overlook');
-        break;
-      case 3: // חץ 3 (מבט חלל)
-        setCameraPreset('orbital');
-        break;
-      default:
-        setCameraPreset('overlook');
-        break;
-    }
-  }
 }
 
 // ----------------------------------------------------------------------------
-// 4. שקופית 1: סיווג איומים
-// ----------------------------------------------------------------------------
-function initThreatClassifier() {
-  DOM.threatButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      DOM.threatButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-
-      const threatKey = button.getAttribute('data-threat');
-      const data = THREAT_DATA[threatKey];
-      if (!data) return;
-
-      DOM.threatRadar.textContent = data.radar;
-      DOM.threatVelocity.textContent = data.velocity;
-      DOM.threatAltitude.textContent = data.altitude;
-      DOM.threatWindow.textContent = data.window;
-      DOM.threatAllocation.textContent = data.allocation;
-      DOM.threatAllocation.className = `alloc-name ${data.colorClass}`;
-    });
-  });
-}
-
-// ----------------------------------------------------------------------------
-// 5. שקופית 2: סימולטור כיפת ברזל ואלגוריתם שטח פתוח (PIP)
+// 4. שקופית 2: סימולטור כיפת ברזל (PIP)
 // ----------------------------------------------------------------------------
 let ironDomeAnimId = null;
-let ironDomeSimState = {
-  isPipActive: true,
-  rockets: [],
-  interceptors: [],
-  particles: [],
-  threatsCount: 0,
-  ignoredCount: 0,
-  engagedCount: 0,
-  neutralizedCount: 0
-};
+let isPipActive = true;
+let rockets = [];
+let interceptors = [];
+let particles = [];
 
 function initIronDomeSim() {
   const canvas = document.getElementById('iron-dome-canvas');
@@ -261,8 +187,6 @@ function initIronDomeSim() {
   if (!ctx) return;
 
   if (ironDomeAnimId) cancelAnimationFrame(ironDomeAnimId);
-
-  // ציור ראשוני
   renderIronDomeFrame(ctx, canvas.width, canvas.height);
 }
 
@@ -272,39 +196,31 @@ function launchIronDomeSalvo() {
   const width = canvas.width;
   const height = canvas.height;
 
-  // שטח עירוני מיושב: בין 360 ל-560 פיקסלים
-  const urbanMinX = 360;
-  const urbanMaxX = 560;
+  const urbanMinX = 420;
+  const urbanMaxX = 640;
 
-  // יצירת 3 רקטות במטח
   for (let i = 0; i < 3; i++) {
-    const startX = 40 + Math.random() * 50;
+    const startX = 40 + Math.random() * 60;
     const startY = height - 40;
-    
-    // קביעה האם הרקטה תפגע בעיר או בשטח פתוח
+
     const targetsCity = (i === 0 || (i === 1 && Math.random() > 0.4));
-    const targetX = targetsCity ? (urbanMinX + 20 + Math.random() * (urbanMaxX - urbanMinX - 40)) : (200 + Math.random() * 120);
+    const targetX = targetsCity ? (urbanMinX + 20 + Math.random() * (urbanMaxX - urbanMinX - 40)) : (220 + Math.random() * 140);
     const targetY = height - 40;
 
     const apexX = (startX + targetX) / 2;
     const apexY = 40 + Math.random() * 50;
 
-    const rocket = {
+    rockets.push({
       id: Date.now() + i,
       startX, startY, targetX, targetY, apexX, apexY,
       progress: 0,
-      speed: 0.007 + Math.random() * 0.003,
+      speed: 0.0075 + Math.random() * 0.003,
       targetsCity,
       evaluated: false,
-      engaged: false,
       alive: true
-    };
-
-    ironDomeSimState.rockets.push(rocket);
-    ironDomeSimState.threatsCount++;
+    });
   }
 
-  updateIronDomeDOMStats();
   startIronDomeLoop();
 }
 
@@ -320,115 +236,81 @@ function startIronDomeLoop() {
     updateIronDomePhysics(canvas.width, canvas.height);
     renderIronDomeFrame(ctx, canvas.width, canvas.height);
 
-    if (ironDomeSimState.rockets.length > 0 || ironDomeSimState.interceptors.length > 0 || ironDomeSimState.particles.length > 0) {
+    if (rockets.length > 0 || interceptors.length > 0 || particles.length > 0) {
       ironDomeAnimId = requestAnimationFrame(loop);
     }
   };
-
   ironDomeAnimId = requestAnimationFrame(loop);
 }
 
 function updateIronDomePhysics(width, height) {
-  const batteryX = 480;
+  const batteryX = 540;
   const batteryY = height - 40;
 
-  // עדכון רקטות
-  ironDomeSimState.rockets.forEach(rocket => {
+  rockets.forEach(rocket => {
     if (!rocket.alive) return;
     rocket.progress += rocket.speed;
 
-    // חישוב נקודת מסלול בליסטי
     const t = rocket.progress;
     rocket.currentX = (1 - t) * (1 - t) * rocket.startX + 2 * (1 - t) * t * rocket.apexX + t * t * rocket.targetX;
     rocket.currentY = (1 - t) * (1 - t) * rocket.startY + 2 * (1 - t) * t * rocket.apexY + t * t * rocket.targetY;
 
-    // אלגוריתם ה-PIP מחליט תוך 20% מהמסלול
     if (t > 0.2 && !rocket.evaluated) {
       rocket.evaluated = true;
-      if (rocket.targetsCity) {
-        // מטרה מאיימת על עיר: מיירטים
-        rocket.engaged = true;
-        ironDomeSimState.engagedCount++;
-        // שיגור טמי"ר
-        ironDomeSimState.interceptors.push({
+      if (rocket.targetsCity || !isPipActive) {
+        interceptors.push({
           startX: batteryX,
           startY: batteryY,
           targetRocket: rocket,
           currentX: batteryX,
           currentY: batteryY,
           progress: 0,
-          speed: 0.02
+          speed: 0.022
         });
-      } else {
-        // מטרה בשטח פתוח: התעלמות
-        if (ironDomeSimState.isPipActive) {
-          ironDomeSimState.ignoredCount++;
-        } else {
-          // סינון כבוי: יורים על הכל
-          rocket.engaged = true;
-          ironDomeSimState.engagedCount++;
-          ironDomeSimState.interceptors.push({
-            startX: batteryX,
-            startY: batteryY,
-            targetRocket: rocket,
-            currentX: batteryX,
-            currentY: batteryY,
-            progress: 0,
-            speed: 0.02
-          });
-        }
       }
-      updateIronDomeDOMStats();
     }
 
-    // פגיעה בקרקע אם לא יורטה
     if (t >= 1) {
       rocket.alive = false;
-      spawnExplosionParticles(rocket.targetX, rocket.targetY, '#ffb700', 12);
+      spawnExplosion(rocket.targetX, rocket.targetY, '#ffb700', 10);
     }
   });
 
-  // עדכון מיירטי טמי"ר
-  ironDomeSimState.interceptors.forEach(interceptor => {
+  interceptors.forEach(interceptor => {
     interceptor.progress += interceptor.speed;
     const rocket = interceptor.targetRocket;
 
     if (rocket && rocket.alive) {
-      interceptor.currentX += (rocket.currentX - interceptor.currentX) * 0.12;
-      interceptor.currentY += (rocket.currentY - interceptor.currentY) * 0.12;
+      interceptor.currentX += (rocket.currentX - interceptor.currentX) * 0.14;
+      interceptor.currentY += (rocket.currentY - interceptor.currentY) * 0.14;
 
-      // מרחק ליירוט קרבה
       const dist = Math.hypot(rocket.currentX - interceptor.currentX, rocket.currentY - interceptor.currentY);
       if (dist < 18) {
         rocket.alive = false;
         interceptor.done = true;
-        ironDomeSimState.neutralizedCount++;
-        updateIronDomeDOMStats();
-        spawnExplosionParticles(rocket.currentX, rocket.currentY, '#00ff88', 25);
+        spawnExplosion(rocket.currentX, rocket.currentY, '#00ff88', 25);
       }
     } else {
       interceptor.done = true;
     }
   });
 
-  // סינון רכיבים שהסתיימו
-  ironDomeSimState.rockets = ironDomeSimState.rockets.filter(r => r.alive);
-  ironDomeSimState.interceptors = ironDomeSimState.interceptors.filter(i => !i.done);
+  rockets = rockets.filter(r => r.alive);
+  interceptors = interceptors.filter(i => !i.done);
 
-  // עדכון חלקיקי פיצוץ
-  ironDomeSimState.particles.forEach(p => {
+  particles.forEach(p => {
     p.x += p.vx;
     p.y += p.vy;
     p.alpha -= 0.025;
   });
-  ironDomeSimState.particles = ironDomeSimState.particles.filter(p => p.alpha > 0);
+  particles = particles.filter(p => p.alpha > 0);
 }
 
-function spawnExplosionParticles(x, y, color, count) {
+function spawnExplosion(x, y, color, count) {
   for (let i = 0; i < count; i++) {
     const angle = Math.random() * Math.PI * 2;
     const speed = 1 + Math.random() * 4;
-    ironDomeSimState.particles.push({
+    particles.push({
       x, y,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
@@ -442,86 +324,74 @@ function spawnExplosionParticles(x, y, color, count) {
 function renderIronDomeFrame(ctx, width, height) {
   ctx.clearRect(0, 0, width, height);
 
-  // רקע שחור עמוק
-  ctx.fillStyle = '#060a12';
+  // רקע חצי-שקוף אלגנטי
+  ctx.fillStyle = 'rgba(6, 10, 18, 0.40)';
   ctx.fillRect(0, 0, width, height);
 
   const groundY = height - 40;
 
-  // ציור שטח פתוח (משמאל)
-  ctx.fillStyle = 'rgba(255, 183, 0, 0.06)';
-  ctx.fillRect(160, groundY - 2, 180, 4);
+  // שטח פתוח (משמאל)
+  ctx.fillStyle = 'rgba(255, 183, 0, 0.08)';
+  ctx.fillRect(180, groundY - 2, 200, 4);
   ctx.fillStyle = '#ffb700';
-  ctx.font = '11px "Heebo", sans-serif';
-  ctx.fillText('שטח פתוח / דיונות (התעלמות)', 180, groundY + 22);
+  ctx.font = '12px "Heebo", sans-serif';
+  ctx.fillText('שטח פתוח (התעלמות)', 220, groundY + 24);
 
-  // ציור אזור עירוני מוגן (מימין)
+  // עיר מוגנת (מימין)
   ctx.fillStyle = 'rgba(0, 240, 255, 0.12)';
-  ctx.fillRect(360, groundY - 50, 200, 50);
+  ctx.fillRect(420, groundY - 55, 220, 55);
   ctx.strokeStyle = '#00f0ff';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(360, groundY - 50, 200, 50);
+  ctx.strokeRect(420, groundY - 55, 220, 55);
 
-  // צלליות בניינים
-  ctx.fillStyle = 'rgba(0, 240, 255, 0.25)';
-  ctx.fillRect(380, groundY - 40, 24, 40);
-  ctx.fillRect(410, groundY - 60, 30, 60);
-  ctx.fillRect(445, groundY - 35, 20, 35);
-  ctx.fillRect(510, groundY - 48, 35, 48);
+  ctx.fillStyle = 'rgba(0, 240, 255, 0.3)';
+  ctx.fillRect(440, groundY - 45, 28, 45);
+  ctx.fillRect(478, groundY - 65, 36, 65);
+  ctx.fillRect(525, groundY - 40, 24, 40);
+  ctx.fillRect(590, groundY - 52, 38, 52);
 
   ctx.fillStyle = '#00f0ff';
-  ctx.font = 'bold 12px "Heebo", sans-serif';
-  ctx.fillText('פוליגון עירוני מיושב (יירוט חובה)', 380, groundY + 22);
+  ctx.font = 'bold 13px "Heebo", sans-serif';
+  ctx.fillText('אזור עירוני מיושב (יירוט חובה)', 445, groundY + 24);
 
-  // סוללת כיפת ברזל ומכ"ם
+  // סוללה ומכ"ם
   ctx.fillStyle = '#00ff88';
-  ctx.fillRect(475, groundY - 14, 20, 14);
+  ctx.fillRect(535, groundY - 14, 20, 14);
   ctx.beginPath();
-  ctx.arc(485, groundY - 16, 7, Math.PI, 0);
+  ctx.arc(545, groundY - 16, 7, Math.PI, 0);
   ctx.fill();
-  ctx.font = '11px "Heebo", sans-serif';
-  ctx.fillText('סוללת טמי"ר', 465, groundY - 26);
 
   // קו קרקע
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.2)';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(0, groundY);
   ctx.lineTo(width, groundY);
   ctx.stroke();
 
-  // ציור רקטות
-  ironDomeSimState.rockets.forEach(r => {
+  // רקטות
+  rockets.forEach(r => {
     ctx.strokeStyle = r.targetsCity ? '#ff3366' : '#ffb700';
     ctx.lineWidth = 2;
-
-    // ציור קו מסלול
     ctx.beginPath();
     ctx.moveTo(r.startX, r.startY);
     ctx.quadraticCurveTo(r.apexX, r.apexY, r.currentX, r.currentY);
     ctx.stroke();
 
-    // ראש רקטה
     ctx.fillStyle = r.targetsCity ? '#ff3366' : '#ffb700';
     ctx.beginPath();
     ctx.arc(r.currentX, r.currentY, 4, 0, Math.PI * 2);
     ctx.fill();
 
-    // תגית PIP
     if (r.evaluated) {
-      ctx.font = '10px "Space Mono", monospace';
-      if (r.targetsCity) {
-        ctx.fillStyle = '#ff3366';
-        ctx.fillText('PIP: עיר!', r.currentX - 10, r.currentY - 10);
-      } else {
-        ctx.fillStyle = '#ffb700';
-        ctx.fillText('PIP: פתוח', r.currentX - 10, r.currentY - 10);
-      }
+      ctx.font = '11px "Space Mono", monospace';
+      ctx.fillStyle = r.targetsCity ? '#ff3366' : '#ffb700';
+      ctx.fillText(r.targetsCity ? 'PIP: עיר!' : 'PIP: פתוח', r.currentX - 10, r.currentY - 10);
     }
   });
 
-  // ציור מיירטי טמי"ר
-  ironDomeSimState.interceptors.forEach(i => {
+  // מיירטי טמי"ר
+  interceptors.forEach(i => {
     ctx.strokeStyle = '#00ff88';
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -535,8 +405,8 @@ function renderIronDomeFrame(ctx, width, height) {
     ctx.fill();
   });
 
-  // ציור חלקיקי פיצוץ
-  ironDomeSimState.particles.forEach(p => {
+  // חלקיקים
+  particles.forEach(p => {
     ctx.fillStyle = p.color;
     ctx.globalAlpha = p.alpha;
     ctx.beginPath();
@@ -546,15 +416,8 @@ function renderIronDomeFrame(ctx, width, height) {
   });
 }
 
-function updateIronDomeDOMStats() {
-  if (DOM.statThreats) DOM.statThreats.textContent = ironDomeSimState.threatsCount;
-  if (DOM.statIgnored) DOM.statIgnored.textContent = ironDomeSimState.ignoredCount;
-  if (DOM.statEngaged) DOM.statEngaged.textContent = ironDomeSimState.engagedCount;
-  if (DOM.statNeutralized) DOM.statNeutralized.textContent = ironDomeSimState.neutralizedCount;
-}
-
 // ----------------------------------------------------------------------------
-// 6. שקופית 3: קלע דוד וראש ביות כפול RF + IIR
+// 5. שקופית 3: קלע דוד וראש ביות כפול
 // ----------------------------------------------------------------------------
 let davidsAnimId = null;
 let isJammingOn = false;
@@ -580,37 +443,34 @@ function initDavidsSlingSim() {
 
 function renderDavidsFrame(ctx, width, height, angle) {
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = '#060a12';
+  ctx.fillStyle = 'rgba(6, 10, 18, 0.40)';
   ctx.fillRect(0, 0, width, height);
 
-  // חלוקת תצוגה לשני מסכי מכ"ם (ימין = אופטי IIR, שמאל = מכ"ם RF)
   const halfW = width / 2;
 
-  // ערוץ ימין: IIR (אופטי תרמי)
-  ctx.fillStyle = 'rgba(0, 255, 136, 0.04)';
+  // ערוץ ימין: IIR תרמי
+  ctx.fillStyle = 'rgba(0, 255, 136, 0.05)';
   ctx.fillRect(halfW + 4, 10, halfW - 14, height - 20);
-  ctx.strokeStyle = 'rgba(0, 255, 136, 0.2)';
+  ctx.strokeStyle = 'rgba(0, 255, 136, 0.25)';
   ctx.strokeRect(halfW + 4, 10, halfW - 14, height - 20);
 
   ctx.fillStyle = '#00ff88';
   ctx.font = 'bold 12px "Heebo", sans-serif';
-  ctx.fillText('ערוץ אופטי תרמי (IIR) // חסין ל"א', halfW + 16, 32);
+  ctx.fillText('ערוץ אופטי-תרמי (IIR) // חסין ל"א', halfW + 16, 32);
 
-  // ערוץ שמאל: RF (מכ"ם)
-  ctx.fillStyle = isJammingOn ? 'rgba(255, 51, 102, 0.08)' : 'rgba(0, 240, 255, 0.04)';
+  // ערוץ שמאל: RF מכ"ם
+  ctx.fillStyle = isJammingOn ? 'rgba(255, 51, 102, 0.08)' : 'rgba(0, 240, 255, 0.05)';
   ctx.fillRect(10, 10, halfW - 14, height - 20);
-  ctx.strokeStyle = isJammingOn ? '#ff3366' : 'rgba(0, 240, 255, 0.2)';
+  ctx.strokeStyle = isJammingOn ? '#ff3366' : 'rgba(0, 240, 255, 0.25)';
   ctx.strokeRect(10, 10, halfW - 14, height - 20);
 
   ctx.fillStyle = isJammingOn ? '#ff3366' : '#00f0ff';
   ctx.font = 'bold 12px "Heebo", sans-serif';
   ctx.fillText(isJammingOn ? 'ערוץ מכ"ם RF // חסימה פעילה (רעש)!' : 'ערוץ מכ"ם RF // נעילה נקייה', 24, 32);
 
-  // חישוב מיקום טיל שיוט מתמרן (תנועת סינוס עוקבת גובה)
-  const targetX = width * 0.7 + Math.cos(angle * 0.8) * 45;
-  const targetY = height * 0.5 + Math.sin(angle * 1.5) * 40;
+  const targetX = width * 0.72 + Math.cos(angle * 0.8) * 45;
+  const targetY = height * 0.5 + Math.sin(angle * 1.5) * 45;
 
-  // ציור רעש ל"א בערוץ המכ"ם אם חסימה דולקת
   if (isJammingOn) {
     ctx.strokeStyle = 'rgba(255, 51, 102, 0.4)';
     for (let i = 0; i < 20; i++) {
@@ -623,7 +483,7 @@ function renderDavidsFrame(ctx, width, height, angle) {
     }
   }
 
-  // ציור המטרה בערוץ תרמי IIR (חתימת חום ברורה של המנוע)
+  // חתימת חום של טיל השיוט
   ctx.fillStyle = '#ffb700';
   ctx.beginPath();
   ctx.arc(targetX, targetY, 6, 0, Math.PI * 2);
@@ -632,16 +492,16 @@ function renderDavidsFrame(ctx, width, height, angle) {
   ctx.strokeStyle = '#00ff88';
   ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.arc(targetX, targetY, 14, 0, Math.PI * 2);
+  ctx.arc(targetX, targetY, 15, 0, Math.PI * 2);
   ctx.stroke();
 
   ctx.fillStyle = '#00ff88';
-  ctx.font = '10px "Space Mono", monospace';
-  ctx.fillText('נעילה תרמית 100%', targetX + 16, targetY + 4);
+  ctx.font = '11px "Space Mono", monospace';
+  ctx.fillText('נעילה תרמית 100%', targetX + 18, targetY + 4);
 
-  // שיגור מיירט סטאנר (Hit-to-Kill)
+  // סטאנר
   if (stunnerLaunched) {
-    stunnerProgress += 0.02;
+    stunnerProgress += 0.022;
     const startX = halfW;
     const startY = height - 20;
 
@@ -663,7 +523,6 @@ function renderDavidsFrame(ctx, width, height, angle) {
     if (stunnerProgress >= 1) {
       stunnerLaunched = false;
       stunnerProgress = 0;
-      // פגיעה קינטית מוצלחת
       ctx.fillStyle = '#00ff88';
       ctx.beginPath();
       ctx.arc(targetX, targetY, 30, 0, Math.PI * 2);
@@ -673,9 +532,8 @@ function renderDavidsFrame(ctx, width, height, angle) {
 }
 
 // ----------------------------------------------------------------------------
-// 7. שקופית 4: חץ 3 ואפוגיאה בחלל
+// 6. שקופית 4: חץ 3 ואפוגיאה בחלל
 // ----------------------------------------------------------------------------
-let arrowAnimId = null;
 let arrowTestActive = false;
 let arrowTestT = 0;
 
@@ -691,25 +549,24 @@ function initArrowApogeeSim() {
 
 function renderArrowFrame(ctx, width, height, apogeeKm) {
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = '#04070e';
+  ctx.fillStyle = 'rgba(6, 10, 18, 0.40)';
   ctx.fillRect(0, 0, width, height);
 
   const groundY = height - 35;
   const maxKm = 160;
 
-  // שכבות אטמוספירה וחלל
   const karmanY = groundY - (100 / maxKm) * (height - 60);
   const apogeeY = groundY - (apogeeKm / maxKm) * (height - 60);
 
-  // הילת אטמוספירה כחולה
+  // הילת אטמוספירה
   const grad = ctx.createLinearGradient(0, groundY, 0, 0);
-  grad.addColorStop(0, 'rgba(0, 240, 255, 0.16)');
+  grad.addColorStop(0, 'rgba(0, 240, 255, 0.2)');
   grad.addColorStop(0.62, 'rgba(0, 240, 255, 0.02)');
   grad.addColorStop(1, 'rgba(4, 7, 14, 0.95)');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, width, groundY);
 
-  // קו קרמן (גבול החלל - 100 ק"מ)
+  // קו קרמן (100 ק"מ)
   ctx.strokeStyle = '#ffb700';
   ctx.setLineDash([8, 6]);
   ctx.lineWidth = 1.5;
@@ -723,15 +580,15 @@ function renderArrowFrame(ctx, width, height, apogeeKm) {
   ctx.font = 'bold 11px "Heebo", sans-serif';
   ctx.fillText('--- קו קרמן (100 ק"מ) // גבול החלל הבינלאומי ---', 30, karmanY - 8);
 
-  // מסלול בליסטי פרבולי של הטיל התוקף
+  // מסלול בליסטי
   ctx.strokeStyle = '#ff3366';
   ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.moveTo(50, groundY);
-  ctx.quadraticCurveTo(width / 2, apogeeY - 35, width - 50, groundY);
+  ctx.moveTo(60, groundY);
+  ctx.quadraticCurveTo(width / 2, apogeeY - 35, width - 60, groundY);
   ctx.stroke();
 
-  // נקודת שיא המסלול (אפוגיאה)
+  // נקודת אפוגיאה
   ctx.fillStyle = '#00f0ff';
   ctx.beginPath();
   ctx.arc(width / 2, apogeeY, 6, 0, Math.PI * 2);
@@ -741,10 +598,10 @@ function renderArrowFrame(ctx, width, height, apogeeKm) {
   ctx.font = 'bold 12px "Heebo", sans-serif';
   ctx.fillText(`אפוגיאה: ${apogeeKm} ק"מ ${apogeeKm >= 100 ? '(בחלל החיצון!)' : '(באטמוספירה)'}`, width / 2 + 12, apogeeY + 4);
 
-  // סימולציית שיגור חץ 3 בחלל
+  // שיגור KKV
   if (arrowTestActive) {
-    arrowTestT += 0.015;
-    const launchX = width - 80;
+    arrowTestT += 0.016;
+    const launchX = width - 90;
     const launchY = groundY;
     const targetX = width / 2;
     const targetY = apogeeY;
@@ -764,14 +621,9 @@ function renderArrowFrame(ctx, width, height, apogeeKm) {
     ctx.arc(kkvX, kkvY, 5, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#00ff88';
-    ctx.font = '10px "Space Mono", monospace';
-    ctx.fillText('חץ 3 KKV', kkvX + 8, kkvY - 4);
-
     if (arrowTestT >= 1) {
       arrowTestActive = false;
       arrowTestT = 0;
-      // פגיעה קינטית מוצלחת
       ctx.fillStyle = '#00f0ff';
       ctx.beginPath();
       ctx.arc(targetX, targetY, 25, 0, Math.PI * 2);
@@ -781,7 +633,103 @@ function renderArrowFrame(ctx, width, height, apogeeKm) {
 }
 
 // ----------------------------------------------------------------------------
-// 8. מנוע תלת-ממד Three.js (כיפות הגנה טקטיות)
+// 7. שקופית 5: מגן אור (לייזר)
+// ----------------------------------------------------------------------------
+let laserAnimId = null;
+let laserActive = false;
+let drones = [];
+
+function initLaserSim() {
+  const canvas = document.getElementById('laser-demo-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  drones = [
+    { x: 80, y: 80, alive: true, hp: 100 },
+    { x: 140, y: 130, alive: true, hp: 100 },
+    { x: 90, y: 180, alive: true, hp: 100 },
+    { x: 160, y: 90, alive: true, hp: 100 }
+  ];
+
+  if (laserAnimId) cancelAnimationFrame(laserAnimId);
+  renderLaserFrame(ctx, canvas.width, canvas.height);
+}
+
+function fireLaser() {
+  laserActive = true;
+  const canvas = document.getElementById('laser-demo-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let currentDroneIdx = 0;
+  const interval = setInterval(() => {
+    if (currentDroneIdx < drones.length) {
+      drones[currentDroneIdx].alive = false;
+      currentDroneIdx++;
+      renderLaserFrame(ctx, canvas.width, canvas.height);
+    } else {
+      clearInterval(interval);
+      laserActive = false;
+      renderLaserFrame(ctx, canvas.width, canvas.height);
+    }
+  }, 400);
+}
+
+function renderLaserFrame(ctx, width, height) {
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = 'rgba(6, 10, 18, 0.40)';
+  ctx.fillRect(0, 0, width, height);
+
+  const emitterX = width - 60;
+  const emitterY = height - 50;
+
+  // פולט הלייזר
+  ctx.fillStyle = '#ff4477';
+  ctx.fillRect(emitterX - 15, emitterY - 15, 30, 30);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '11px "Heebo", sans-serif';
+  ctx.fillText('תותח לייזר 100kW', emitterX - 50, emitterY + 25);
+
+  // רחפנים
+  drones.forEach((drone, idx) => {
+    if (drone.alive) {
+      ctx.fillStyle = '#ff3366';
+      ctx.beginPath();
+      ctx.arc(drone.x, drone.y, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.fillText(`כטב"ם 0${idx + 1}`, drone.x - 15, drone.y - 12);
+    } else {
+      ctx.fillStyle = '#00ff88';
+      ctx.beginPath();
+      ctx.arc(drone.x, drone.y, 14, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.fillText('יורט!', drone.x - 10, drone.y - 12);
+    }
+
+    if (laserActive && !drone.alive) {
+      // קרן לייזר באנרגיה גבוהה
+      ctx.strokeStyle = '#ff4477';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#ff4477';
+      ctx.shadowBlur = 15;
+      ctx.beginPath();
+      ctx.moveTo(emitterX, emitterY);
+      ctx.lineTo(drone.x, drone.y);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+  });
+}
+
+// ----------------------------------------------------------------------------
+// 8. מנוע תלת-ממד Three.js (כיפות הגנה טקטיות מלאות)
 // ----------------------------------------------------------------------------
 function initThreeEngine() {
   const container = document.getElementById('three-canvas-target');
@@ -797,44 +745,44 @@ function initThreeEngine() {
   container.appendChild(renderer.domElement);
 
   // רשת קואורדינטות קרקעית
-  const gridHelper = new THREE.GridHelper(260, 26, 0x00f0ff, 0x112233);
+  const gridHelper = new THREE.GridHelper(280, 28, 0x00f0ff, 0x112233);
   gridHelper.position.y = -0.5;
   scene.add(gridHelper);
 
   // כיפת ברזל (שכבה ראשונה - ירוק)
-  const ironGeo = new THREE.SphereGeometry(22, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-  const ironMat = new THREE.MeshBasicMaterial({ color: 0x00ff88, wireframe: true, transparent: true, opacity: 0.35 });
+  const ironGeo = new THREE.SphereGeometry(24, 28, 18, 0, Math.PI * 2, 0, Math.PI / 2);
+  const ironMat = new THREE.MeshBasicMaterial({ color: 0x00ff88, wireframe: true, transparent: true, opacity: 0.45 });
   const ironDome = new THREE.Mesh(ironGeo, ironMat);
   scene.add(ironDome);
 
   // קלע דוד (שכבה שנייה - ענבר)
-  const davidGeo = new THREE.SphereGeometry(52, 28, 18, 0, Math.PI * 2, 0, Math.PI / 2);
-  const davidMat = new THREE.MeshBasicMaterial({ color: 0xffb700, wireframe: true, transparent: true, opacity: 0.28 });
+  const davidGeo = new THREE.SphereGeometry(56, 32, 20, 0, Math.PI * 2, 0, Math.PI / 2);
+  const davidMat = new THREE.MeshBasicMaterial({ color: 0xffb700, wireframe: true, transparent: true, opacity: 0.35 });
   const davidDome = new THREE.Mesh(davidGeo, davidMat);
   scene.add(davidDome);
 
-  // חץ 2 וחץ 3 (שכבה שלישית ורביעית - ציאן עמוק בחלל)
-  const arrowGeo = new THREE.SphereGeometry(105, 32, 20, 0, Math.PI * 2, 0, Math.PI / 2);
-  const arrowMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.22 });
+  // חץ 2 וחץ 3 (שכבות עליונות ובחלל - ציאן עמוק)
+  const arrowGeo = new THREE.SphereGeometry(110, 36, 22, 0, Math.PI * 2, 0, Math.PI / 2);
+  const arrowMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.28 });
   const arrowDome = new THREE.Mesh(arrowGeo, arrowMat);
   scene.add(arrowDome);
 
-  // הגדרת בקרת סיבוב עכבר OrbitControls אם זמינה
+  // בקרת סיבוב עכבר OrbitControls
   let controls = null;
   if (typeof THREE.OrbitControls !== 'undefined') {
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.maxPolarAngle = Math.PI / 2.05; // מניעת ירידה מתחת לקרקע
+    controls.maxPolarAngle = Math.PI / 2.05;
     controls.minDistance = 40;
     controls.maxDistance = 350;
   }
 
-  // מיקום מצלמה התחלתי
-  camera.position.set(90, 80, 120);
-  camera.lookAt(0, 15, 0);
+  // מיקום מצלמה התחלתי לשקופית 1
+  camera.position.set(0, 85, 150);
+  camera.lookAt(0, 20, 0);
 
-  // לולאת רינדור 60 FPS
+  // לולאת רינדור
   const animate = () => {
     requestAnimationFrame(animate);
     if (controls) controls.update();
@@ -845,7 +793,6 @@ function initThreeEngine() {
   };
   animate();
 
-  // התאמת גודל חלון
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -853,39 +800,13 @@ function initThreeEngine() {
   });
 }
 
-function setCameraPreset(preset) {
-  if (!window.aegisThreeCamera) return;
-  const camera = window.aegisThreeCamera;
-
-  switch (preset) {
-    case 'overlook':
-      camera.position.set(90, 80, 120);
-      camera.lookAt(0, 15, 0);
-      break;
-    case 'horizon':
-      camera.position.set(35, 16, 45);
-      camera.lookAt(0, 10, 0);
-      break;
-    case 'orbital':
-      camera.position.set(0, 150, 180);
-      camera.lookAt(0, 30, 0);
-      break;
-    case 'reset':
-      camera.position.set(90, 80, 120);
-      camera.lookAt(0, 15, 0);
-      break;
-  }
-}
-
 // ----------------------------------------------------------------------------
-// 9. האזנה לאירועים ומקלדת
+// 9. מאזיני אירועים ומקלדת
 // ----------------------------------------------------------------------------
 function initEventListeners() {
-  // ניווט שקופיות בכפתורים
   if (DOM.btnPrev) DOM.btnPrev.addEventListener('click', prevSlide);
   if (DOM.btnNext) DOM.btnNext.addEventListener('click', nextSlide);
 
-  // נקודות ניווט ישיר
   DOM.stepIndicators.querySelectorAll('.dot-btn').forEach(dot => {
     dot.addEventListener('click', () => {
       const idx = parseInt(dot.getAttribute('data-index'), 10);
@@ -893,15 +814,6 @@ function initEventListeners() {
     });
   });
 
-  // החלפת תצוגת 3D
-  if (DOM.btnToggle3D) {
-    DOM.btnToggle3D.addEventListener('click', () => {
-      AppState.is3DActive = !AppState.is3DActive;
-      document.body.classList.toggle('view-3d-active', AppState.is3DActive);
-    });
-  }
-
-  // מסך מלא
   if (DOM.btnToggleFullscreen) {
     DOM.btnToggleFullscreen.addEventListener('click', () => {
       if (!document.fullscreenElement) {
@@ -912,43 +824,36 @@ function initEventListeners() {
     });
   }
 
-  // שקופית 2: בקרי כיפת ברזל
+  // שקופית 2
   if (DOM.btnSalvoIronDome) DOM.btnSalvoIronDome.addEventListener('click', launchIronDomeSalvo);
   if (DOM.btnTogglePip) {
     DOM.btnTogglePip.addEventListener('click', () => {
-      ironDomeSimState.isPipActive = !ironDomeSimState.isPipActive;
-      DOM.btnTogglePip.classList.toggle('active', ironDomeSimState.isPipActive);
-      DOM.pipStatusText.textContent = ironDomeSimState.isPipActive ? 'פעיל (סלקטיבי)' : 'כבוי (יירוט הכל)';
+      isPipActive = !isPipActive;
+      DOM.btnTogglePip.classList.toggle('active', isPipActive);
+      DOM.btnTogglePip.querySelector('span').textContent = isPipActive ? 'סינון PIP: פעיל (סלקטיבי)' : 'סינון PIP: כבוי (יירוט הכל)';
     });
   }
   if (DOM.btnResetIronDome) {
     DOM.btnResetIronDome.addEventListener('click', () => {
-      ironDomeSimState.rockets = [];
-      ironDomeSimState.interceptors = [];
-      ironDomeSimState.particles = [];
-      ironDomeSimState.threatsCount = 0;
-      ironDomeSimState.ignoredCount = 0;
-      ironDomeSimState.engagedCount = 0;
-      ironDomeSimState.neutralizedCount = 0;
-      updateIronDomeDOMStats();
+      rockets = [];
+      interceptors = [];
+      particles = [];
       initIronDomeSim();
     });
   }
 
-  // שקופית 3: בקרי קלע דוד
-  if (DOM.btnToggleEcm) {
-    DOM.btnToggleEcm.addEventListener('click', () => {
-      isJammingOn = !isJammingOn;
-      DOM.btnToggleEcm.classList.toggle('active', isJammingOn);
-      DOM.ecmStatusText.textContent = isJammingOn ? 'פעילה (ל"א ומוץ)' : 'כבויה';
-      DOM.statRfConfidence.textContent = isJammingOn ? '45% (משובש!)' : '98%';
-      DOM.statIirLock.textContent = isJammingOn ? 'נעול (מעקף אופטי)' : 'נעול (100%)';
-    });
-  }
+  // שקופית 3
   if (DOM.btnFireStunner) {
     DOM.btnFireStunner.addEventListener('click', () => {
       stunnerLaunched = true;
       stunnerProgress = 0;
+    });
+  }
+  if (DOM.btnToggleEcm) {
+    DOM.btnToggleEcm.addEventListener('click', () => {
+      isJammingOn = !isJammingOn;
+      DOM.btnToggleEcm.classList.toggle('active', isJammingOn);
+      DOM.ecmBtnText.textContent = isJammingOn ? 'חסימת ל"א: פעילה (מוץ)' : 'חסימת ל"א: כבויה';
     });
   }
   if (DOM.btnResetDavids) {
@@ -956,24 +861,15 @@ function initEventListeners() {
       isJammingOn = false;
       stunnerLaunched = false;
       DOM.btnToggleEcm.classList.remove('active');
-      DOM.ecmStatusText.textContent = 'כבויה';
-      DOM.statRfConfidence.textContent = '98%';
-      DOM.statIirLock.textContent = 'נעול (100%)';
+      DOM.ecmBtnText.textContent = 'חסימת ל"א: כבויה';
     });
   }
 
-  // שקופית 4: בקרי חץ 3
+  // שקופית 4
   if (DOM.sliderApogee) {
     DOM.sliderApogee.addEventListener('input', (e) => {
       const val = parseInt(e.target.value, 10);
       DOM.apogeeSliderVal.textContent = `${val} ק"מ ${val >= 100 ? '(בחלל מעל קו קרמן)' : '(באטמוספירה)'}`;
-      if (val >= 100) {
-        DOM.arrowAssignedSystem.textContent = 'חץ 3 (רכב השמדה בחלל)';
-        DOM.arrowKkvStatus.textContent = 'דחף וקטורי פעיל';
-      } else {
-        DOM.arrowAssignedSystem.textContent = 'חץ 2 (רסס כיווני)';
-        DOM.arrowKkvStatus.textContent = 'המתנה (באטמוספירה)';
-      }
       initArrowApogeeSim();
     });
   }
@@ -999,33 +895,11 @@ function initEventListeners() {
     });
   }
 
-  // שקופית 5: תרחיש שו"ב
-  if (DOM.btnAutoAllocate) {
-    DOM.btnAutoAllocate.addEventListener('click', () => {
-      DOM.btnAutoAllocate.classList.toggle('active');
-      const isOn = DOM.btnAutoAllocate.classList.contains('active');
-      DOM.bmcStatusText.textContent = isOn ? 'פעילה' : 'ידנית';
-    });
-  }
+  // שקופית 5
+  if (DOM.btnFireLaser) DOM.btnFireLaser.addEventListener('click', fireLaser);
+  if (DOM.btnResetLaser) DOM.btnResetLaser.addEventListener('click', initLaserSim);
 
-  // שקופית 6: סינון טבלת מטריצה
-  DOM.matrixFilterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      DOM.matrixFilterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.getAttribute('data-filter');
-
-      DOM.matrixRows.forEach(row => {
-        if (filter === 'all' || row.getAttribute('data-tier') === filter) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
-      });
-    });
-  });
-
-  // חלון מקורות אקדמיים (מודאל)
+  // מודאל מקורות
   if (DOM.btnOpenCitations) {
     DOM.btnOpenCitations.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1040,14 +914,13 @@ function initEventListeners() {
     });
   }
 
-  // מקשי מקלדת נוחים במיוחד למרצה
+  // מקלדת
   window.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT') return;
 
     switch (e.key) {
-      // בעברית (RTL): חץ ימינה זה קודם, חץ שמאלה זה הבא, או להפך
       case 'ArrowLeft':
-      case ' ': // מקש רווח
+      case ' ':
       case 'PageDown':
         e.preventDefault();
         nextSlide();
@@ -1056,11 +929,6 @@ function initEventListeners() {
       case 'PageUp':
         e.preventDefault();
         prevSlide();
-        break;
-      case 't':
-      case 'T':
-      case 'א':
-        if (DOM.btnToggle3D) DOM.btnToggle3D.click();
         break;
       case 'f':
       case 'F':
@@ -1080,12 +948,11 @@ function initEventListeners() {
 }
 
 // ----------------------------------------------------------------------------
-// 10. הזנקת המערכת בטעינת העמוד
+// 10. הזנקת האפליקציה
 // ----------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('[Aegis] מצגת ההגנה הרב-שכבתית בעברית נטענה בהצלחה.');
+  console.log('[Aegis] מצגת ההגנה הרב-שכבתית בעברית נטענה.');
   initEventListeners();
-  initThreatClassifier();
   initThreeEngine();
   goToSlide(0);
 });
