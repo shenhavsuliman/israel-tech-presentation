@@ -1,196 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Academic Defense-Tech Presentation: Israeli Multi-Layered Air Defense Architecture (Iron Dome, David's Sling, Arrow 2/3, and Iron Beam).">
-  <title>Aegis-ISR // Breakthrough Defense Technologies in Israel</title>
+  <meta name="description" content="מצגת אקדמית אינטראקטיבית: פריצות דרך בטכנולוגיות הגנה בישראל - כיפת ברזל, קלע דוד, חץ 2/3 וקרן ברזל (מגן אור).">
+  <title>מגן ישראל // טכנולוגיות הגנה אווירית פורצות דרך</title>
   
-  <!-- Preconnect to Google Fonts -->
+  <!-- גופני תצוגה עבריים מודרניים: Heebo ו-Rubik וגופן טלמטריה Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Rajdhani:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Rubik:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   
-  <!-- Presentation Stylesheet -->
+  <!-- גיליון סגנון נקי בסגנון Apple Presentation -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="view-mode-command">
-  <!-- Subtle CRT Scanline FX overlay -->
-  <div class="scanline-overlay" aria-hidden="true"></div>
+<body class="deck-body">
 
-  <!-- Persistent 3D Three.js WebGL Container -->
-  <div id="three-container" class="three-container" aria-label="3D Tactical Defense Envelope">
+  <!-- רקע 3D WebGL שקט: Three.js -->
+  <div id="three-container" class="three-container" aria-label="כיפת הגנה תלת-ממדית">
     <div id="three-canvas-target"></div>
-    <div class="three-hud-overlay" aria-hidden="true">
-      <div class="hud-compass-badge">
-        <span class="compass-label">HEMISPHERIC RADAR ENVELOPE</span>
-        <span class="compass-coords">LAT 31.7683° N // LON 35.2137° E</span>
-      </div>
-      <div class="hud-altitude-ladder">
-        <div class="ladder-notch"><span>150 KM</span><small>EXO-ATMOSPHERIC (ARROW 3)</small></div>
-        <div class="ladder-notch"><span>50 KM</span><small>UPPER STRATOSPHERE (ARROW 2)</small></div>
-        <div class="ladder-notch"><span>25 KM</span><small>MID TIER (DAVID'S SLING)</small></div>
-        <div class="ladder-notch"><span>10 KM</span><small>VSHORAD / C-RAM (IRON DOME)</small></div>
-        <div class="ladder-notch active"><span>SURFACE</span><small>AESA SENSOR GRID</small></div>
-      </div>
-    </div>
   </div>
 
-  <!-- Aegis Top HUD Header Bar -->
-  <header id="aegis-hud-header" class="aegis-hud-header">
-    <div class="header-left">
-      <div class="brand-badge">
-        <span class="radar-dot-pulse"></span>
-        <span class="brand-code">AEGIS-ISR</span>
-        <span class="brand-divider">//</span>
-        <span class="brand-title">MULTI-LAYERED AIR DEFENSE ARCHITECTURE</span>
+  <!-- סרגל כותרת עליון אלגנטי ומינימליסטי למרצה -->
+  <header class="deck-header">
+    <div class="header-brand">
+      <span class="radar-dot-pulse"></span>
+      <span class="brand-name">מגן ישראל</span>
+      <span class="brand-sep">//</span>
+      <span class="brand-sub">מערך ההגנה האווירית הרב-שכבתי</span>
+    </div>
+
+    <div class="header-center-info">
+      <div class="slide-counter-badge" id="header-counter">
+        <span class="counter-label">מיקום:</span>
+        <span class="counter-value" id="current-slide-counter">שקופית 1 מתוך 6</span>
       </div>
     </div>
 
-    <div class="header-center">
-      <div class="telemetry-bar">
-        <div class="telemetry-item">
-          <span class="telemetry-label">MODULE</span>
-          <span id="telemetry-slide" class="telemetry-val text-cyan">01 / 06</span>
-        </div>
-        <div class="telemetry-item">
-          <span class="telemetry-label">DEFCON STATE</span>
-          <span class="telemetry-val text-emerald">DEFCON-4 // NOMINAL</span>
-        </div>
-        <div class="telemetry-item">
-          <span class="telemetry-label">RADAR GRID</span>
-          <span id="telemetry-radar" class="telemetry-val text-cyan">EL/M-2084 AESA ON</span>
-        </div>
-        <div class="telemetry-item">
-          <span class="telemetry-label">ZULU TIME</span>
-          <span id="telemetry-clock" class="telemetry-val text-amber">--:--:--</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="header-right">
-      <button id="btn-toggle-view" class="hud-btn" title="Toggle 3D Tactical Sandbox (T)" aria-label="Toggle 3D View">
-        <span class="hud-btn-icon">🌐</span>
-        <span id="btn-view-text">TACTICAL 3D</span>
+    <div class="header-controls">
+      <button id="btn-toggle-3d" class="deck-btn" title="הדלק / כבה תצוגת תלת-ממד (מקש T)">
+        <span class="btn-icon">🌐</span>
+        <span id="btn-3d-text">מרחב 3D</span>
       </button>
-      <button id="btn-toggle-audio" class="hud-btn hud-btn-icon-only" title="Toggle Audio Synthesizer (M)" aria-label="Toggle Audio">
-        <span id="audio-icon">🔇</span>
-      </button>
-      <button id="btn-toggle-fullscreen" class="hud-btn hud-btn-icon-only" title="Toggle Fullscreen (F)" aria-label="Toggle Fullscreen">
+      <button id="btn-toggle-fullscreen" class="deck-btn deck-btn-icon" title="מסך מלא (מקש F)">
         <span>⛶</span>
       </button>
     </div>
   </header>
 
-  <!-- Slide Deck Main Container -->
-  <main id="slide-deck" class="slide-deck">
+  <!-- מרחב השקופיות (כל שקופית פרוסה על מסך מלא 100vh) -->
+  <main class="deck-container" id="deck-container">
     
-    <!-- SLIDE 1: STRATEGIC DOCTRINE & THREAT SPECTRUM -->
-    <section id="slide-0" class="slide active" data-slide="0" data-tier="all">
-      <div class="slide-layout">
-        <div class="slide-col slide-briefing">
-          <div class="module-indicator">
-            <span class="badge-tag">MODULE 01</span>
-            <span class="badge-scope">STRATEGIC DOCTRINE</span>
-          </div>
-          <h1 class="slide-title">THE MULTI-TIER SHIELD: THREAT SPECTRUM & SURVIVABILITY</h1>
-          <p class="slide-subtitle">
-            Israel's Operational Imperative: Bridging sub-minute rocket barrages, low-altitude cruise missiles, and hypersonic exo-atmospheric ballistic threats.
+    <!-- שקופית 1: תפיסת ההגנה הרב-שכבתית ומפת האיומים -->
+    <section id="slide-0" class="slide active" data-slide="0">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="module-tag">שקופית 01 // דוקטרינה אסטרטגית</span>
+          <h1 class="slide-title">ההגנה הרב-שכבתית: תפיסה מבצעית ומפת האיומים</h1>
+          <p class="slide-desc">
+            האילוץ הגיאו-אסטרטגי של ישראל: מפצמ"רים של שניות בודדות ועד טילים היפר-סוניים בחלל.
           </p>
+        </div>
 
-          <div class="hud-card mb-md">
-            <div class="hud-card-header">
+        <div class="slide-grid">
+          <!-- כרטיס תוכן שמאלי (3 נקודות מפתח ברורות) -->
+          <div class="deck-card briefing-card">
+            <div class="card-header">
               <span class="card-icon">⚡</span>
-              <h3>The Asymmetric Operational Challenge</h3>
+              <h2>שלושת אתגרי הליבה של זירת הלחימה</h2>
             </div>
-            <div class="hud-card-body">
-              <ul class="doctrine-list">
+            <div class="card-body">
+              <ul class="key-points-list">
                 <li>
-                  <strong>Time-to-Impact Compression:</strong> Communities adjacent to Gaza/Lebanon face 15–30s warning windows, while ballistic missiles from 1,500 km away provide 10–12 minutes.
+                  <strong>דחיסת זמני תגובה קיצונית:</strong> מעוטף עזה וגבול הצפון מגיעים איומים תוך 15–30 שניות בלבד, בעוד טיל בליסטי מאיראן מספק חלון התראה של 10–12 דקות בלבד למרחק 1,500 ק"מ.
                 </li>
                 <li>
-                  <strong>Threat Diversity:</strong> Defending against unguided mortars, swarm loitering drones, sea-skimming cruise missiles, and Mach 8+ exo-atmospheric warheads simultaneously.
+                  <strong>גיוון איומים רב-ממדי:</strong> צורך בו-זמני ליירט רקטות קצרות, כטב"מים מתאבדים מנמיכי טוס, טילי שיוט מתמרנים וטילים בליסטיים הטסים במהירות מאך 8 ומעלה.
                 </li>
                 <li>
-                  <strong>The Cost-Exchange Paradox:</strong> Firing million-dollar interceptors at cheap $500 unguided rockets leads to economic exhaustion. Specialization by tier is an existential requirement.
+                  <strong>פרדוקס הא-סימטריה הכלכלית:</strong> שיגור מיירט בעלות מיליון דולר נגד רקטה זולה של $500 יוביל לקריסה כלכלית. התמחות ייעודית לפי שכבה היא תנאי הישרדות.
                 </li>
               </ul>
-            </div>
-          </div>
 
-          <div class="hud-card">
-            <div class="hud-card-header">
-              <span class="card-icon">🛡️</span>
-              <h3>The 4-Tier Defensive Hierarchy</h3>
-            </div>
-            <div class="hud-card-body">
-              <div class="tier-pills-row">
-                <span class="tier-pill tier-laser"><strong>Iron Beam:</strong> High-Energy Laser (~$3.50/shot)</span>
-                <span class="tier-pill tier-1"><strong>Tier 1: Iron Dome:</strong> Short-Range C-RAM & UAVs</span>
-                <span class="tier-pill tier-2"><strong>Tier 2: David's Sling:</strong> Heavy Rockets & Cruise</span>
-                <span class="tier-pill tier-3"><strong>Tiers 3/4: Arrow 2 & 3:</strong> Exo-Atmospheric Ballistic</span>
+              <div class="tiers-summary-box">
+                <span class="box-title">ארבע שכבות המגן הלאומי:</span>
+                <div class="tiers-chips-grid">
+                  <div class="tier-chip chip-laser"><strong>מגן אור (קרן ברזל):</strong> לייזר רב-עוצמה (~$3.50 לירייה)</div>
+                  <div class="tier-chip chip-iron"><strong>שכבה 1 - כיפת ברזל:</strong> רקטות, פצמ"רים וכטב"מים (עד 70 ק"מ)</div>
+                  <div class="tier-chip chip-david"><strong>שכבה 2 - קלע דוד:</strong> רקטות כבדות וטילי שיוט (עד 300 ק"מ)</div>
+                  <div class="tier-chip chip-arrow"><strong>שכבות 3 ו-4 - חץ 2 ו-3:</strong> טילים בליסטיים בחלל (עד 2,400 ק"מ)</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="slide-col slide-interactive">
-          <div class="hud-card hud-card-interactive">
-            <div class="hud-card-header">
+          <!-- כרטיס אינטראקטיבי ימני: סיווג איומים דינמי -->
+          <div class="deck-card interactive-card">
+            <div class="card-header">
               <span class="card-icon">🎯</span>
-              <h3>Interactive Threat Classifier & Allocation Radar</h3>
-              <span class="live-tag">INTERACTIVE TELEMETRY</span>
+              <h2>סיווג איומים אינטראקטיבי והקצאת מיירטים</h2>
+              <span class="live-badge">הדגמה חיה</span>
             </div>
-            <div class="hud-card-body">
-              <p class="section-desc">Select an incoming threat class to simulate radar tracking, response window, and optimal interceptor allocation:</p>
+            <div class="card-body">
+              <p class="interactive-instruction">לחץ על סוג איום כדי לראות את מאפייני הטיסה, חלון התגובה והשכבה המיירטת:</p>
 
-              <div class="threat-selector-grid">
-                <button class="threat-btn active" data-threat="vshorad">
-                  <span class="threat-type">TYPE 01</span>
-                  <span class="threat-name">Short-Range Rocket / C-RAM</span>
-                  <span class="threat-speed">Mach 1.2 • 4–70 km</span>
+              <div class="threat-buttons-grid">
+                <button class="threat-select-btn active" data-threat="vshorad">
+                  <span class="threat-btn-tag">איום 01</span>
+                  <span class="threat-btn-title">רקטה קצרת טווח / פצמ"ר</span>
+                  <span class="threat-btn-spec">מאך 1.2–2.0 • 4–70 ק"מ</span>
                 </button>
-                <button class="threat-btn" data-threat="uav">
-                  <span class="threat-type">TYPE 02</span>
-                  <span class="threat-name">Loitering Munition / Swarm Drone</span>
-                  <span class="threat-speed">Mach 0.3 • Low Altitude</span>
+                <button class="threat-select-btn" data-threat="uav">
+                  <span class="threat-btn-tag">איום 02</span>
+                  <span class="threat-btn-title">נחיל כטב"מים / חימוש משוטט</span>
+                  <span class="threat-btn-spec">מאך 0.3 • גובה נמוך</span>
                 </button>
-                <button class="threat-btn" data-threat="cruise">
-                  <span class="threat-type">TYPE 03</span>
-                  <span class="threat-name">Terrain-Hugging Cruise Missile</span>
-                  <span class="threat-speed">Mach 0.85 • Maneuvering</span>
+                <button class="threat-select-btn" data-threat="cruise">
+                  <span class="threat-btn-tag">איום 03</span>
+                  <span class="threat-btn-title">טיל שיוט מתמרן עוקב-קרקע</span>
+                  <span class="threat-btn-spec">מאך 0.85 • תמרון בגובה נמוך</span>
                 </button>
-                <button class="threat-btn" data-threat="ballistic">
-                  <span class="threat-type">TYPE 04</span>
-                  <span class="threat-name">Hypersonic Ballistic Missile (MRBM)</span>
-                  <span class="threat-speed">Mach 8+ • Exo-Atmosphere</span>
+                <button class="threat-select-btn" data-threat="ballistic">
+                  <span class="threat-btn-tag">איום 04</span>
+                  <span class="threat-btn-title">טיל בליסטי היפר-סוני (MRBM)</span>
+                  <span class="threat-btn-spec">מאך 8+ • מחוץ לאטמוספירה</span>
                 </button>
               </div>
 
-              <!-- Dynamic Threat Telemetry Panel -->
-              <div id="threat-telemetry-display" class="threat-telemetry-panel">
-                <div class="telemetry-grid-data">
-                  <div class="data-box">
-                    <span class="data-label">DETECTION RADAR</span>
-                    <span id="threat-radar" class="data-value text-cyan">EL/M-2084 MMR (S-Band)</span>
+              <!-- פאנל טלמטריה של האיום -->
+              <div class="telemetry-readout-panel">
+                <div class="readout-grid">
+                  <div class="readout-box">
+                    <span class="readout-label">מכ"ם גילוי ראשי:</span>
+                    <span id="threat-radar" class="readout-val text-cyan">EL/M-2084 MMR (מכ"ם בוהה AESA)</span>
                   </div>
-                  <div class="data-box">
-                    <span class="data-label">VELOCITY PROFILE</span>
-                    <span id="threat-velocity" class="data-value text-amber">400–700 m/s (Supersonic)</span>
+                  <div class="readout-box">
+                    <span class="readout-label">פרופיל מהירות:</span>
+                    <span id="threat-velocity" class="readout-val text-amber">400–700 מטר/שנייה (על-קולי)</span>
                   </div>
-                  <div class="data-box">
-                    <span class="data-label">INTERCEPT ALTITUDE</span>
-                    <span id="threat-altitude" class="data-value text-cyan">2,000–8,000 m (Troposphere)</span>
+                  <div class="readout-box">
+                    <span class="readout-label">גובה יירוט אופטימלי:</span>
+                    <span id="threat-altitude" class="readout-val text-cyan">1,000–6,000 מטר (טרופוספירה)</span>
                   </div>
-                  <div class="data-box">
-                    <span class="data-label">DECISION WINDOW</span>
-                    <span id="threat-window" class="data-value text-crimson">15 – 45 Seconds</span>
+                  <div class="readout-box">
+                    <span class="readout-label">חלון החלטה ויירוט:</span>
+                    <span id="threat-window" class="readout-val text-crimson">15 עד 45 שניות בלבד!</span>
                   </div>
                 </div>
 
-                <div class="allocation-banner">
-                  <span class="alloc-label">PRIMARY DEFENSE ALLOCATION:</span>
-                  <span id="threat-allocation" class="alloc-value text-emerald">TIER 1 // IRON DOME (TAMIR INTERCEPTOR)</span>
+                <div class="allocation-result-banner">
+                  <span class="alloc-title">הקצאת מיירט אופטימלית:</span>
+                  <span id="threat-allocation" class="alloc-name text-emerald">שכבה 1 // כיפת ברזל (טיל טמי"ר)</span>
                 </div>
               </div>
             </div>
@@ -199,109 +159,106 @@
       </div>
     </section>
 
-    <!-- SLIDE 2: TIER 1 - IRON DOME -->
-    <section id="slide-1" class="slide" data-slide="1" data-tier="iron-dome">
-      <div class="slide-layout">
-        <div class="slide-col slide-briefing">
-          <div class="module-indicator">
-            <span class="badge-tag">MODULE 02</span>
-            <span class="badge-scope">TIER 1 SYSTEM</span>
-          </div>
-          <h1 class="slide-title">TIER 1: IRON DOME (C-RAM & LOW-ALTITUDE AIR DEFENSE)</h1>
-          <p class="slide-subtitle">
-            Rafael & IAI Elta • Over 2,500 Combat Interceptions • Documented >90% Interception Success Rate
+    <!-- שקופית 2: כיפת ברזל (שכבה ראשונה) ואלגוריתם שטח פתוח (PIP) -->
+    <section id="slide-1" class="slide" data-slide="1">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="module-tag">שקופית 02 // שכבה ראשונה</span>
+          <h1 class="slide-title">כיפת ברזל: יירוט טקטי מוכח ואלגוריתם PIP</h1>
+          <p class="slide-desc">
+            רפאל ואלתא (תע"א) • למעלה מ-2,500 יירוטים מבצעיים • שיעור הצלחה עקבי של מעל 90%
           </p>
+        </div>
 
-          <div class="hud-card mb-md">
-            <div class="hud-card-header">
+        <div class="slide-grid">
+          <!-- תוכן עיוני מובנה -->
+          <div class="deck-card briefing-card">
+            <div class="card-header">
               <span class="card-icon">📡</span>
-              <h3>System Architecture & Battery Triad</h3>
+              <h2>שלישיית הרכיבים של סוללת כיפת ברזל</h2>
             </div>
-            <div class="hud-card-body">
-              <div class="tech-spec-grid">
-                <div class="spec-item">
-                  <span class="spec-label">RADAR UNIT</span>
-                  <span class="spec-title">EL/M-2084 MMR</span>
-                  <p class="spec-desc">3D Active Electronically Scanned Array (AESA) detecting up to 1,100 targets simultaneously.</p>
+            <div class="card-body">
+              <div class="system-specs-2x2">
+                <div class="spec-card">
+                  <span class="spec-badge">מכ"ם וגילוי</span>
+                  <h3 class="spec-name">EL/M-2084 MMR</h3>
+                  <p class="spec-text">מכ"ם AESA מתקדם העוקב בו-זמנית אחר עד 1,100 מטרות באוויר ומחשב נקודות שיגור ופגיעה.</p>
                 </div>
-                <div class="spec-item">
-                  <span class="spec-label">BMC MODULE</span>
-                  <span class="spec-title">Battle Management Unit</span>
-                  <p class="spec-desc">Computes missile trajectory in < 1 second and projects exact ground impact coordinates.</p>
+                <div class="spec-card">
+                  <span class="spec-badge">מרכז ניהול אש</span>
+                  <h3 class="spec-name">שו"ב (BMC)</h3>
+                  <p class="spec-text">מחשב את מסלול הרקטה תוך פחות משנייה אחת וקובע האם היא מסכנת יישוב מאוכלס או נופלת בשטח פתוח.</p>
                 </div>
-                <div class="spec-item">
-                  <span class="spec-label">INTERCEPTOR</span>
-                  <span class="spec-title">Tamir Missile</span>
-                  <p class="spec-desc">Laser proximity fuze, steering fins, electro-optical seeker. Unit cost: ~$50,000.</p>
+                <div class="spec-card">
+                  <span class="spec-badge">טיל מיירט</span>
+                  <h3 class="spec-name">טיל טמי"ר (Tamir)</h3>
+                  <p class="spec-text">מרעום לייזר קרבה, כנפוני היגוי זריזים וראש ביות אלקטרו-אופטי. עלות מיירט: כ-50,000 דולר.</p>
                 </div>
-                <div class="spec-item">
-                  <span class="spec-label">LAUNCH CAPACITY</span>
-                  <span class="spec-title">20 Interceptors / Unit</span>
-                  <p class="spec-desc">3–4 launchers per battery (60–80 ready missiles), deployed on modular mobile platforms.</p>
+                <div class="spec-card">
+                  <span class="spec-badge">כושר שיגור</span>
+                  <h3 class="spec-name">20 טילים למשגר</h3>
+                  <p class="spec-text">3–4 משגרים בסוללה (60–80 טילים זמינים), פריסה ניידת גמישה להגנה על ערים ומתקנים אסטרטגיים.</p>
                 </div>
+              </div>
+
+              <div class="algorithm-highlight-card">
+                <div class="algo-header">
+                  <span class="algo-icon">🧠</span>
+                  <strong>מהפכת ה-PIP: אלגוריתם נקודת פגיעה משוערת</strong>
+                </div>
+                <p class="algo-text">
+                  בניגוד למערכות הגנה קלאסיות שיורות על כל מטרה, כיפת ברזל מיירטת רק רקטות שמאיימות לפגוע בפוליגון עירוני. רקטות שמסלולן נופל בשטחים חקלאיים, דיונות או בים <strong>אינן מיורטות כלל</strong>. עיקרון זה מציל מלאי מיירטים קריטי!
+                </p>
               </div>
             </div>
           </div>
 
-          <div class="hud-card">
-            <div class="hud-card-header">
-              <span class="card-icon">🧠</span>
-              <h3>The Game-Changing "Selective PIP Algorithm"</h3>
-            </div>
-            <div class="hud-card-body">
-              <p class="text-sm">
-                Unlike traditional air defense systems that fire at every incoming radar track, Iron Dome evaluates if the predicted impact point (PIP) lies inside protected urban polygon grids. Rockets calculated to hit open dunes, agricultural fields, or the sea are <strong>deliberately ignored</strong>, preserving irreplaceable interceptor inventory.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide-col slide-interactive">
-          <div class="hud-card hud-card-interactive">
-            <div class="hud-card-header">
+          <!-- סימולטור יירוט חי: אלגוריתם PIP -->
+          <div class="deck-card interactive-card">
+            <div class="card-header">
               <span class="card-icon">🚀</span>
-              <h3>Live Iron Dome Intercept & PIP Simulator</h3>
-              <span class="live-tag">CANVAS SIMULATOR</span>
+              <h2>סימולטור יירוט חי: הבחנה בין שטח פתוח לעיר</h2>
+              <span class="live-badge">סימולטור פעיל</span>
             </div>
-            <div class="hud-card-body">
-              <div class="sim-controls-toolbar">
-                <button id="btn-salvo-iron-dome" class="sim-btn sim-btn-primary">
-                  <span>⚡</span> LAUNCH THREAT SALVO (3 ROCKETS)
+            <div class="card-body">
+              <div class="demo-controls-bar">
+                <button id="btn-salvo-iron-dome" class="deck-action-btn btn-primary-prominent">
+                  <span>🚀</span> הפעל שיגור מטח (3 רקטות)
                 </button>
-                <button id="btn-toggle-pip" class="sim-btn sim-btn-toggle active">
-                  <span>PIP FILTER:</span> <span id="pip-status-text">ACTIVE (SELECTIVE)</span>
+                <button id="btn-toggle-pip" class="deck-action-btn btn-toggle active">
+                  <span>סינון אזורי פגיעה (PIP):</span> <span id="pip-status-text">פעיל (סלקטיבי)</span>
                 </button>
-                <button id="btn-reset-iron-dome" class="sim-btn sim-btn-secondary">
-                  RESET
+                <button id="btn-reset-iron-dome" class="deck-action-btn btn-secondary">
+                  <span>🔄</span> איפוס
                 </button>
               </div>
 
-              <!-- Canvas Simulation Viewport -->
-              <div class="canvas-wrapper">
-                <canvas id="iron-dome-canvas" width="600" height="340"></canvas>
-                <div class="canvas-watermark">EL/M-2084 LIVE TELEMETRY SIMULATION</div>
+              <!-- משטח קנבס לסימולציה -->
+              <div class="canvas-stage-wrapper">
+                <canvas id="iron-dome-canvas" width="600" height="320"></canvas>
+                <div class="canvas-caption">מכ"ם EL/M-2084 // תמונת מכ"ם חיה ויירוט טמי"ר בזמן אמת</div>
               </div>
 
-              <!-- Simulation Realtime Stats -->
-              <div class="sim-stats-bar">
-                <div class="sim-stat">
-                  <span class="stat-label">THREATS DETECTED:</span>
-                  <span id="stat-threats" class="stat-val text-crimson">0</span>
+              <!-- פאנל נתונים מהסימולציה -->
+              <div class="simulation-metrics-bar">
+                <div class="metric-col">
+                  <span class="metric-title">רקטות שזוהו:</span>
+                  <span id="stat-threats" class="metric-number text-crimson">0</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">OPEN TERRAIN (IGNORED):</span>
-                  <span id="stat-ignored" class="stat-val text-amber">0</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">שטח פתוח (התעלמות):</span>
+                  <span id="stat-ignored" class="metric-number text-amber">0</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">URBAN IMPACT (ENGAGED):</span>
-                  <span id="stat-engaged" class="stat-val text-cyan">0</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">שטח עירוני (יירוט):</span>
+                  <span id="stat-engaged" class="metric-number text-cyan">0</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">KINETIC INTERCEPTS:</span>
-                  <span id="stat-neutralized" class="stat-val text-emerald">0</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">יירוטים מוצלחים:</span>
+                  <span id="stat-neutralized" class="metric-number text-emerald">0</span>
                 </div>
               </div>
             </div>
@@ -310,112 +267,100 @@
       </div>
     </section>
 
-    <!-- SLIDE 3: TIER 2 - DAVID'S SLING -->
-    <section id="slide-2" class="slide" data-slide="2" data-tier="davids-sling">
-      <div class="slide-layout">
-        <div class="slide-col slide-briefing">
-          <div class="module-indicator">
-            <span class="badge-tag">MODULE 03</span>
-            <span class="badge-scope">TIER 2 SYSTEM</span>
-          </div>
-          <h1 class="slide-title">TIER 2: DAVID'S SLING (MAGIC WAND)</h1>
-          <p class="slide-subtitle">
-            Rafael Advanced Defense Systems & Raytheon • Bridging Tactical Defense and High-Altitude Shields
+    <!-- שקופית 3: קלע דוד (שכבה שנייה) וטיל הסטאנר -->
+    <section id="slide-2" class="slide" data-slide="2">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="module-tag">שקופית 03 // שכבה שנייה</span>
+          <h1 class="slide-title">קלע דוד: נטרול רקטות כבדות וטילי שיוט</h1>
+          <p class="slide-desc">
+            רפאל וריית'יאון (ארה"ב) • מיירט "סטאנר" • מהירות מאך 7.5 ויירוט קינטי ישיר (Hit-to-Kill)
           </p>
+        </div>
 
-          <div class="hud-card mb-md">
-            <div class="hud-card-header">
+        <div class="slide-grid">
+          <div class="deck-card briefing-card">
+            <div class="card-header">
               <span class="card-icon">🐬</span>
-              <h3>The Stunner Interceptor: Dolphin-Nose Innovation</h3>
+              <h2>מיירט ה"סטאנר": חדשנות "אף הדולפין" הכפול</h2>
             </div>
-            <div class="hud-card-body">
-              <p class="text-sm mb-sm">
-                The Stunner missile features a revolutionary asymmetric "dolphin nose" radome housing two distinct, co-located sensors that render electronic jamming ineffective:
+            <div class="card-body">
+              <p class="card-lead-text">
+                חרטום הטיל מעוצב במבנה אסימטרי ייחודי דמוי "אף דולפין", המאפשר שיכון שני חיישנים הפועלים בו-זמנית ומעניקים חסינות מוחלטת מלוחמה אלקטרונית:
               </p>
-              <ul class="doctrine-list">
+              <ul class="key-points-list">
                 <li>
-                  <strong>Active Radar Homeseeker (RF):</strong> Tracks targets in severe rain, fog, and dust clouds at long distance.
+                  <strong>ראש ביות מכ"מי פעיל (RF):</strong> עוקב אחר מטרות בכל תנאי מזג אוויר, עננות כבדה, גשם ואבק ממרחקים עצומים.
                 </li>
                 <li>
-                  <strong>Imaging Infrared (IIR) Multi-Color Seeker:</strong> Identifies true target thermal signatures and rejects flare decoys or chaff.
+                  <strong>ראש ביות אלקטרו-אופטי רב-צבעי (IIR):</strong> מזהה במדויק את החתימה התרמית של המטרה ודוחה נורי הטעיה ומוץ.
                 </li>
                 <li>
-                  <strong>Hit-to-Kill (HTK) Kinetic Impact:</strong> Completely eliminates target warheads without explosive blast fragmentation, neutralizing chemical/biological payloads.
+                  <strong>פגיעה קינטית ישירה (Hit-to-Kill):</strong> השמדת המטרה ללא צורך בחומר נפץ, באמצעות פגיעת "ברזל בברזל" המבטיחה ריסוק מלא של ראש הקרב.
                 </li>
               </ul>
-            </div>
-          </div>
 
-          <div class="hud-card">
-            <div class="hud-card-header">
-              <span class="card-icon">🎯</span>
-              <h3>Operational Engagement Parameters</h3>
-            </div>
-            <div class="hud-card-body">
-              <div class="key-metrics-grid">
-                <div class="metric-box">
-                  <span class="metric-val text-amber">40–300 KM</span>
-                  <span class="metric-label">Operational Slant Range</span>
+              <div class="performance-metrics-grid">
+                <div class="perf-box">
+                  <span class="perf-val text-amber">40–300 ק"מ</span>
+                  <span class="perf-label">טווח יירוט משופר</span>
                 </div>
-                <div class="metric-box">
-                  <span class="metric-val text-cyan">MACH 7.5</span>
-                  <span class="metric-label">Terminal Sprint Speed</span>
+                <div class="perf-box">
+                  <span class="perf-val text-cyan">מאך 7.5</span>
+                  <span class="perf-label">מהירות ריצה סופית</span>
                 </div>
-                <div class="metric-box">
-                  <span class="metric-val text-emerald">DUAL PULSE</span>
-                  <span class="metric-label">Solid Rocket Motor</span>
+                <div class="perf-box">
+                  <span class="perf-val text-emerald">מנוע דו-שלבי</span>
+                  <span class="perf-label">דלק מוצק בדחף כפול</span>
                 </div>
-                <div class="metric-box">
-                  <span class="metric-val text-amber">ALL-WEATHER</span>
-                  <span class="metric-label">ECM/ECCM Resilience</span>
+                <div class="perf-box">
+                  <span class="perf-val text-amber">חסינות ל"א מלאה</span>
+                  <span class="perf-label">היתוך RF + IIR</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="slide-col slide-interactive">
-          <div class="hud-card hud-card-interactive">
-            <div class="hud-card-header">
+          <div class="deck-card interactive-card">
+            <div class="card-header">
               <span class="card-icon">🔬</span>
-              <h3>Dual-Seeker Evasion & Lock-On Simulator</h3>
-              <span class="live-tag">RADAR SIMULATOR</span>
+              <h2>סימולטור ראש ביות כפול מול טיל שיוט מתמרן</h2>
+              <span class="live-badge">הדגמת היתוך חיישנים</span>
             </div>
-            <div class="hud-card-body">
-              <p class="section-desc">Observe how the Stunner maintains lock-on against an evasive maneuvering cruise missile when Electronic Jamming is activated:</p>
+            <div class="card-body">
+              <p class="interactive-instruction">צפה כיצד מיירט הסטאנר שומר על נעילה מול טיל שיוט מתמרן גם בעת הפעלת חסימה אלקטרונית (ל"א):</p>
               
-              <div class="sim-controls-toolbar">
-                <button id="btn-toggle-ecm" class="sim-btn sim-btn-toggle">
-                  <span>ECM JAMMING / CHAFF:</span> <span id="ecm-status-text">OFF</span>
+              <div class="demo-controls-bar">
+                <button id="btn-toggle-ecm" class="deck-action-btn btn-toggle">
+                  <span>חסימה אלקטרונית (ל"א):</span> <span id="ecm-status-text">כבויה</span>
                 </button>
-                <button id="btn-fire-stunner" class="sim-btn sim-btn-primary">
-                  <span>🚀</span> LAUNCH STUNNER HTK
+                <button id="btn-fire-stunner" class="deck-action-btn btn-primary-prominent">
+                  <span>🚀</span> שגר מיירט סטאנר (Hit-to-Kill)
                 </button>
-                <button id="btn-reset-davids" class="sim-btn sim-btn-secondary">
-                  RESET
+                <button id="btn-reset-davids" class="deck-action-btn btn-secondary">
+                  <span>🔄</span> איפוס
                 </button>
               </div>
 
-              <!-- Canvas Stunner Radar Viewport -->
-              <div class="canvas-wrapper">
-                <canvas id="davids-sling-canvas" width="600" height="340"></canvas>
-                <div class="canvas-watermark">STUNNER DUAL RF/IIR CORRELATION ENGINE</div>
+              <div class="canvas-stage-wrapper">
+                <canvas id="davids-sling-canvas" width="600" height="320"></canvas>
+                <div class="canvas-caption">מערכת היתוך נתונים: ערוץ מכ"ם RF + ערוץ אופטי תרמי IIR</div>
               </div>
 
-              <div class="sim-stats-bar">
-                <div class="sim-stat">
-                  <span class="stat-label">RF SENSOR CONFIDENCE:</span>
-                  <span id="stat-rf-confidence" class="stat-val text-cyan">98%</span>
+              <div class="simulation-metrics-bar">
+                <div class="metric-col">
+                  <span class="metric-title">ביטחון ערוץ מכ"ם RF:</span>
+                  <span id="stat-rf-confidence" class="metric-number text-cyan">98%</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">IIR OPTICAL LOCK:</span>
-                  <span id="stat-iir-lock" class="stat-val text-emerald">CONFIRMED</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">נעילה תרמית אופטית IIR:</span>
+                  <span id="stat-iir-lock" class="metric-number text-emerald">נעול (100%)</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">INTERCEPT VELOCITY:</span>
-                  <span class="stat-val text-amber">MACH 7.5</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">מהירות סגירה:</span>
+                  <span class="metric-number text-amber">מאך 7.5</span>
                 </div>
               </div>
             </div>
@@ -424,103 +369,100 @@
       </div>
     </section>
 
-    <!-- SLIDE 4: TIERS 3 & 4 - ARROW 2 & ARROW 3 -->
-    <section id="slide-3" class="slide" data-slide="3" data-tier="arrow">
-      <div class="slide-layout">
-        <div class="slide-col slide-briefing">
-          <div class="module-indicator">
-            <span class="badge-tag">MODULE 04</span>
-            <span class="badge-scope">TIERS 3 & 4</span>
-          </div>
-          <h1 class="slide-title">TIERS 3 & 4: ARROW 2 & ARROW 3 (STRATEGIC BALLISTIC SHIELD)</h1>
-          <p class="slide-subtitle">
-            Israel Aerospace Industries (IAI) & Boeing / US MDA • Upper-Atmosphere & Historic Exo-Atmospheric Space Interceptions
+    <!-- שקופית 4: חץ 2 וחץ 3 - יירוט בחלל מחוץ לאטמוספירה -->
+    <section id="slide-3" class="slide" data-slide="3">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="module-tag">שקופית 04 // שכבות 3 ו-4</span>
+          <h1 class="slide-title">חץ 2 וחץ 3: מטריית ההגנה הבליסטית ויירוט בחלל</h1>
+          <p class="slide-desc">
+            התעשייה האווירית (מלמ) ובואינג / סוכנות ההגנה האמריקאית (MDA) • היירוט המבצעי הראשון בהיסטוריה בחלל
           </p>
+        </div>
 
-          <div class="hud-card mb-md">
-            <div class="hud-card-header">
+        <div class="slide-grid">
+          <div class="deck-card briefing-card">
+            <div class="card-header">
               <span class="card-icon">🌌</span>
-              <h3>Arrow 2 vs. Arrow 3: Strategic Differentiation</h3>
+              <h2>הבחנה אסטרטגית: חץ 2 מול חץ 3</h2>
             </div>
-            <div class="hud-card-body">
-              <div class="comparison-dual-grid">
-                <div class="dual-card">
-                  <div class="dual-header text-amber">ARROW 2 (UPPER ATMOSPHERE)</div>
-                  <ul class="text-sm">
-                    <li><strong>Interception Regime:</strong> Stratosphere / Mesosphere (Altitude: 10–50 km).</li>
-                    <li><strong>Kill Mechanism:</strong> Directional blast fragmentation warhead (destroys incoming warhead during terminal descent).</li>
-                    <li><strong>Target Set:</strong> Medium-range ballistic missiles (Scud, Shahab-3).</li>
+            <div class="card-body">
+              <div class="arrow-dual-comparison">
+                <div class="arrow-system-box">
+                  <h3 class="system-title text-amber">טיל חץ 2 (באטמוספירה העליונה)</h3>
+                  <ul class="system-specs-list">
+                    <li><strong>סביבת יירוט:</strong> סטרטוספירה/מזוספירה (גובה: 10–50 ק"מ).</li>
+                    <li><strong>מנגנון השמדה:</strong> ראש קרב רסס כיווני עוצמתי המשמיד את הטיל בשלב הצלילה הסופית.</li>
+                    <li><strong>איומים עיקריים:</strong> טילים בליסטיים לטווח בינוני (סקאד, שיהאב 3).</li>
                   </ul>
                 </div>
-                <div class="dual-card">
-                  <div class="dual-header text-cyan">ARROW 3 (EXO-ATMOSPHERIC / SPACE)</div>
-                  <ul class="text-sm">
-                    <li><strong>Interception Regime:</strong> Vacuum of Space (>100 km, above Kármán Line).</li>
-                    <li><strong>Kill Mechanism:</strong> Hit-to-Kill (HTK) Detachable Kinetic Kill Vehicle (KKV) with thrust vectoring.</li>
-                    <li><strong>Milestone:</strong> November 2023: First recorded combat space interception in human history.</li>
+                <div class="arrow-system-box">
+                  <h3 class="system-title text-cyan">טיל חץ 3 (מחוץ לאטמוספירה / חלל)</h3>
+                  <ul class="system-specs-list">
+                    <li><strong>סביבת יירוט:</strong> ואקום החלל (מעל 100 ק"מ, מעבר לקו קרמן).</li>
+                    <li><strong>מנגנון השמדה:</strong> רכב השמדה קינטי נפרד (KKV) בעל מנועי ניהוג וקטוריים בחלל.</li>
+                    <li><strong>הישג היסטורי:</strong> נובמבר 2023 - יירוט מבצעי ראשון אי-פעם של טיל בליסטי מחוץ לאטמוספירה.</li>
                   </ul>
                 </div>
+              </div>
+
+              <div class="radar-box-greenpine">
+                <strong>מכ"ם "אורן ירוק משופר" (Super Green Pine):</strong> מכ"ם AESA ענק בטווח גילוי של מעל 900 ק"מ המבחין באמצעות אלגוריתמי מיקרו-דופלר בין ראש הקרב האמיתי לבין שברי מנוע והטעיות דמה בחלל.
               </div>
             </div>
           </div>
 
-          <div class="hud-card">
-            <div class="hud-card-header">
-              <span class="card-icon">📡</span>
-              <h3>Super Green Pine Radar (EL/M-2080S)</h3>
-            </div>
-            <div class="hud-card-body">
-              <p class="text-sm">
-                Giant L-band active phased array radar operating at extreme ranges (>900 km). Employs advanced clutter rejection and micro-doppler discriminant algorithms to differentiate real warheads from spent rocket booster debris and dummy decoys.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide-col slide-interactive">
-          <div class="hud-card hud-card-interactive">
-            <div class="hud-card-header">
+          <div class="deck-card interactive-card">
+            <div class="card-header">
               <span class="card-icon">🚀</span>
-              <h3>Exo-Atmospheric Apogee & Trajectory Visualizer</h3>
-              <span class="live-tag">ALTITUDE PROFILE</span>
+              <h2>מדמיין גובה אפוגיאה ויירוט בחלל (חץ 3)</h2>
+              <span class="live-badge">פרופיל גובה</span>
             </div>
-            <div class="hud-card-body">
-              <p class="section-desc">Adjust ballistic missile trajectory apogee to observe atmospheric boundary layers and the Arrow 3 space intercept window:</p>
+            <div class="card-body">
+              <p class="interactive-instruction">שנה את גובה שיא המסלול (אפוגיאה) כדי לראות את גבולות האטמוספירה ומעבר היירוט לחלל:</p>
 
-              <div class="slider-control-card">
-                <div class="slider-labels">
-                  <span>BALLISTIC MISSILE APOGEE:</span>
-                  <span id="apogee-slider-val" class="text-cyan font-mono">120 KM (LOW EARTH SPACE)</span>
+              <div class="slider-wrapper-deck">
+                <div class="slider-header-row">
+                  <span>גובה שיא של הטיל התוקף (אפוגיאה):</span>
+                  <span id="apogee-slider-val" class="slider-val-highlight">120 ק"מ (בחלל מעל קו קרמן)</span>
                 </div>
-                <input id="slider-apogee" type="range" min="30" max="160" value="120" step="5" class="hud-range-slider">
-                <div class="slider-scale-ticks">
-                  <span>30km (Stratosphere)</span>
-                  <span>50km (Mesosphere)</span>
-                  <span class="text-amber">100km (Kármán Line)</span>
-                  <span class="text-cyan">160km (Exo-Space)</span>
+                <input id="slider-apogee" type="range" min="30" max="160" value="120" step="5" class="deck-slider">
+                <div class="slider-ticks-row">
+                  <span>30 ק"מ (סטרטוספירה)</span>
+                  <span>50 ק"מ (מזוספירה)</span>
+                  <span class="tick-karman">100 ק"מ (קו קרמן - גבול החלל)</span>
+                  <span class="tick-space">160 ק"מ (חלל עמוק)</span>
                 </div>
               </div>
 
-              <!-- Interactive Visual Canvas -->
-              <div class="canvas-wrapper">
+              <div class="demo-controls-bar">
+                <button id="btn-fire-arrow" class="deck-action-btn btn-primary-prominent">
+                  <span>🚀</span> הדגם שיגור ויירוט חץ 3 בחלל (KKV)
+                </button>
+                <button id="btn-reset-arrow" class="deck-action-btn btn-secondary">
+                  <span>🔄</span> איפוס
+                </button>
+              </div>
+
+              <div class="canvas-stage-wrapper">
                 <canvas id="arrow-apogee-canvas" width="600" height="280"></canvas>
-                <div class="canvas-watermark">EXO-ATMOSPHERIC HIT-TO-KILL KINETIC PROFILE</div>
+                <div class="canvas-caption">פרופיל יירוט קינטי מחוץ לאטמוספירה // רכב השמדה KKV</div>
               </div>
 
-              <div class="sim-stats-bar">
-                <div class="sim-stat">
-                  <span class="stat-label">ASSIGNED INTERCEPTOR:</span>
-                  <span id="arrow-assigned-system" class="stat-val text-cyan">ARROW 3 (SPACE KKV)</span>
+              <div class="simulation-metrics-bar">
+                <div class="metric-col">
+                  <span class="metric-title">מערכת מוקצית:</span>
+                  <span id="arrow-assigned-system" class="metric-number text-cyan">חץ 3 (רכב השמדה בחלל)</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">KINETIC KILL VEHICLE:</span>
-                  <span id="arrow-kkv-status" class="stat-val text-emerald">ARMED (TVC ACTIVE)</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">רכב יירוט KKV:</span>
+                  <span id="arrow-kkv-status" class="metric-number text-emerald">דחף וקטורי פעיל</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">COLLISION VELOCITY:</span>
-                  <span class="stat-val text-amber">>3,000 M/S</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">מהירות התנגשות:</span>
+                  <span class="metric-number text-amber">>3,000 מטר/שנייה</span>
                 </div>
               </div>
             </div>
@@ -529,143 +471,132 @@
       </div>
     </section>
 
-    <!-- SLIDE 5: MULTI-TIER C4I MATRIX & IRON BEAM -->
-    <section id="slide-4" class="slide" data-slide="4" data-tier="c4i">
-      <div class="slide-layout">
-        <div class="slide-col slide-briefing">
-          <div class="module-indicator">
-            <span class="badge-tag">MODULE 05</span>
-            <span class="badge-scope">SYSTEMS INTEGRATION</span>
-          </div>
-          <h1 class="slide-title">INTEGRATED C4I COMMAND MATRIX & IRON BEAM</h1>
-          <p class="slide-subtitle">
-            Automated Sensor-to-Shooter Real-Time Fusion and the Cost-Asymmetry Revolution
+    <!-- שקופית 5: מערך השליטה האחוד (C4I) וקרן ברזל -->
+    <section id="slide-4" class="slide" data-slide="4">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="module-tag">שקופית 05 // אינטגרציית מערכות</span>
+          <h1 class="slide-title">מערך השליטה והבקרה (C4I) ומהפכת הלייזר</h1>
+          <p class="slide-desc">
+            היתוך חיישנים מקצה לקצה בזמן אמת, הקצאת מטרות ממוחשבת והמהפכה הכלכלית של "מגן אור" (קרן ברזל)
           </p>
+        </div>
 
-          <div class="hud-card mb-md">
-            <div class="hud-card-header">
+        <div class="slide-grid">
+          <div class="deck-card briefing-card">
+            <div class="card-header">
               <span class="card-icon">⚡</span>
-              <h3>Next-Gen Directed Energy: Iron Beam</h3>
+              <h2>נשק אנרגיה מוכוונת מהדור הבא: "מגן אור" (קרן ברזל)</h2>
             </div>
-            <div class="hud-card-body">
-              <div class="laser-card-banner">
-                <div class="laser-badge">100kW FIBER LASER</div>
-                <div class="laser-details">
-                  <p class="text-sm">
-                    Developed by Rafael, Iron Beam introduces a directed-energy layer delivering <strong>near-zero cost per engagement (~$3.50 electricity cost)</strong>, an essentially bottomless magazine, and speed-of-light intercept against drones, mortars, and close rockets.
-                  </p>
+            <div class="card-body">
+              <div class="laser-spotlight-box">
+                <div class="laser-tag-badge">לייזר סיב אופטי 100kW</div>
+                <p class="laser-spotlight-text">
+                  מערכת הלייזר מתוצרת רפאל מציגה פריצת דרך עולמית: <strong>עלות של כ-3.50 דולר בלבד לכל יירוט (עלות חשמל בלבד)</strong>, מחסנית בלתי נגמרת, ויירוט במהירות האור של רחפנים, פצמ"רים ורקטות קצרות.
+                </p>
+              </div>
+
+              <div class="cost-table-card">
+                <h3 class="cost-table-title">💰 המדרג הכלכלי של עלות ליירוט</h3>
+                <div class="cost-rows-list">
+                  <div class="cost-row-item">
+                    <span class="cost-col-name text-laser">קרן ברזל (לייזר)</span>
+                    <span class="cost-col-price text-emerald">כ-3.50 דולר לירייה</span>
+                    <span class="cost-col-target">פצמ"רים ונחילי רחפנים</span>
+                  </div>
+                  <div class="cost-row-item">
+                    <span class="cost-col-name text-emerald">כיפת ברזל (טמי"ר)</span>
+                    <span class="cost-col-price text-cyan">כ-50,000 דולר לטיל</span>
+                    <span class="cost-col-target">רקטות ארטילריות וכטב"מים</span>
+                  </div>
+                  <div class="cost-row-item">
+                    <span class="cost-col-name text-amber">קלע דוד (סטאנר)</span>
+                    <span class="cost-col-price text-amber">כמיליון דולר לטיל</span>
+                    <span class="cost-col-target">טילי שיוט ורקטות כבדות</span>
+                  </div>
+                  <div class="cost-row-item">
+                    <span class="cost-col-name text-cyan">חץ 2 וחץ 3</span>
+                    <span class="cost-col-price text-crimson">2.5–3 מיליון דולר לטיל</span>
+                    <span class="cost-col-target">טילים בליסטיים אסטרטגיים</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="hud-card">
-            <div class="hud-card-header">
-              <span class="card-icon">💰</span>
-              <h3>Economic Interception Hierarchy</h3>
-            </div>
-            <div class="hud-card-body">
-              <div class="cost-hierarchy-table">
-                <div class="cost-row">
-                  <span class="cost-tier">IRON BEAM (LASER)</span>
-                  <span class="cost-price text-emerald">~$3.50 / shot</span>
-                  <span class="cost-role">Short Mortars & Drone Swarms</span>
-                </div>
-                <div class="cost-row">
-                  <span class="cost-tier">IRON DOME (TAMIR)</span>
-                  <span class="cost-price text-cyan">~$50,000 / shot</span>
-                  <span class="cost-role">Artillery Rockets & Heavy Drones</span>
-                </div>
-                <div class="cost-row">
-                  <span class="cost-tier">DAVID'S SLING (STUNNER)</span>
-                  <span class="cost-price text-amber">~$1,000,000 / shot</span>
-                  <span class="cost-role">Cruise Missiles & Heavy Rockets</span>
-                </div>
-                <div class="cost-row">
-                  <span class="cost-tier">ARROW 2 & 3</span>
-                  <span class="cost-price text-crimson">~$2,500,000–$3,000,000</span>
-                  <span class="cost-role">Strategic Ballistic Warheads</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slide-col slide-interactive">
-          <div class="hud-card hud-card-interactive">
-            <div class="hud-card-header">
+          <div class="deck-card interactive-card">
+            <div class="card-header">
               <span class="card-icon">🎮</span>
-              <h3>Unified Air Defense Director: Multi-Threat Scenario</h3>
-              <span class="live-tag">SCENARIO CONSOLE</span>
+              <h2>קונסולת ניהול קרב רב-זירתית (סימולציית תקיפה משולבת)</h2>
+              <span class="live-badge">תרחיש ניהול אש</span>
             </div>
-            <div class="hud-card-body">
-              <p class="section-desc">Trigger a multi-vector inbound attack and observe automatic Battle Management Center (BMC) tier allocation:</p>
+            <div class="card-body">
+              <p class="interactive-instruction">הפעל מתקפה בו-זמנית מגוונת וצפה כיצד מערכת השו"ב מקצה את שכבת ההגנה הזולה והאפקטיבית ביותר:</p>
 
-              <div class="sim-controls-toolbar">
-                <button id="btn-spawn-scenario" class="sim-btn sim-btn-primary">
-                  <span>⚠️</span> INITIATE SIMULTANEOUS ATTACK
+              <div class="demo-controls-bar">
+                <button id="btn-spawn-scenario" class="deck-action-btn btn-primary-prominent">
+                  <span>⚠️</span> הפעל מתקפה רב-ערוצית משולבת
                 </button>
-                <button id="btn-auto-allocate" class="sim-btn sim-btn-toggle active">
-                  <span>BMC AUTO-ALLOCATOR:</span> <span id="bmc-status-text">ON</span>
+                <button id="btn-auto-allocate" class="deck-action-btn btn-toggle active">
+                  <span>הקצאת שו"ב אוטומטית:</span> <span id="bmc-status-text">פעילה</span>
                 </button>
-                <button id="btn-reset-scenario" class="sim-btn sim-btn-secondary">
-                  RESET
+                <button id="btn-reset-scenario" class="deck-action-btn btn-secondary">
+                  <span>🔄</span> איפוס
                 </button>
               </div>
 
-              <!-- Threat Matrix Decision Table -->
-              <div class="scenario-board" id="scenario-board">
-                <div class="scenario-track" data-track="1">
-                  <div class="track-header">
-                    <span class="track-id">VECTOR A</span>
-                    <span class="track-threat text-crimson">5x Swarm UAVs</span>
-                    <span class="track-alt">Alt: 400m</span>
+              <div class="scenario-vectors-board">
+                <div class="vector-card" data-vector="1">
+                  <div class="vector-header">
+                    <span class="vector-tag">אפיק א'</span>
+                    <span class="vector-threat text-crimson">נחיל 5 כטב"מים מתאבדים</span>
+                    <span class="vector-alt">גובה: 400 מ'</span>
                   </div>
-                  <div class="track-action">
-                    <span class="track-allocated text-emerald">ALLOCATED: IRON BEAM (DIRECTED LASER)</span>
-                    <span class="track-cost text-muted">Cost: $17.50</span>
-                  </div>
-                </div>
-
-                <div class="scenario-track" data-track="2">
-                  <div class="track-header">
-                    <span class="track-id">VECTOR B</span>
-                    <span class="track-threat text-crimson">Low-Altitude Cruise Missile</span>
-                    <span class="track-alt">Alt: 150m (Maneuvering)</span>
-                  </div>
-                  <div class="track-action">
-                    <span class="track-allocated text-amber">ALLOCATED: DAVID'S SLING (STUNNER HTK)</span>
-                    <span class="track-cost text-muted">Cost: $1,000,000</span>
+                  <div class="vector-body">
+                    <span class="vector-allocated text-emerald">הוקצה: מגן אור (לייזר רב-עוצמה)</span>
+                    <span class="vector-cost">עלות יירוט כוללת: $17.50</span>
                   </div>
                 </div>
 
-                <div class="scenario-track" data-track="3">
-                  <div class="track-header">
-                    <span class="track-id">VECTOR C</span>
-                    <span class="track-threat text-crimson">Hypersonic MRBM</span>
-                    <span class="track-alt">Alt: 130km (Exo-Atmosphere)</span>
+                <div class="vector-card" data-vector="2">
+                  <div class="vector-header">
+                    <span class="vector-tag">אפיק ב'</span>
+                    <span class="vector-threat text-crimson">טיל שיוט מנמיך טוס</span>
+                    <span class="vector-alt">גובה: 150 מ' (מתמרן)</span>
                   </div>
-                  <div class="track-action">
-                    <span class="track-allocated text-cyan">ALLOCATED: ARROW 3 (SPACE KKV)</span>
-                    <span class="track-cost text-muted">Cost: $2,800,000</span>
+                  <div class="vector-body">
+                    <span class="vector-allocated text-amber">הוקצה: קלע דוד (סטאנר Hit-to-Kill)</span>
+                    <span class="vector-cost">עלות: 1,000,000 דולר</span>
+                  </div>
+                </div>
+
+                <div class="vector-card" data-vector="3">
+                  <div class="vector-header">
+                    <span class="vector-tag">אפיק ג'</span>
+                    <span class="vector-threat text-crimson">טיל בליסטי היפר-סוני</span>
+                    <span class="vector-alt">גובה: 130 ק"מ (בחלל)</span>
+                  </div>
+                  <div class="vector-body">
+                    <span class="vector-allocated text-cyan">הוקצה: חץ 3 (רכב השמדה קינטי KKV)</span>
+                    <span class="vector-cost">עלות: 2,800,000 דולר</span>
                   </div>
                 </div>
               </div>
 
-              <div class="sim-stats-bar">
-                <div class="sim-stat">
-                  <span class="stat-label">DEFENSE DOCTRINE ALIGNMENT:</span>
-                  <span class="stat-val text-emerald">100% OPTIMAL</span>
+              <div class="simulation-metrics-bar">
+                <div class="metric-col">
+                  <span class="metric-title">התאמה לדוקטרינה:</span>
+                  <span class="metric-number text-emerald">100% אופטימלי</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">ESTIMATED DEFENSE COST:</span>
-                  <span id="stat-scenario-cost" class="stat-val text-amber">$3,800,017.50</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">עלות הגנה כוללת:</span>
+                  <span id="stat-scenario-cost" class="metric-number text-amber">$3,800,017.50</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="sim-stat">
-                  <span class="stat-label">INTERCEPT CONFIRMATION:</span>
-                  <span id="stat-scenario-result" class="stat-val text-cyan">ALL THREATS DESTROYED</span>
+                <div class="metric-sep"></div>
+                <div class="metric-col">
+                  <span class="metric-title">תוצאת סיכול:</span>
+                  <span id="stat-scenario-result" class="metric-number text-cyan">כל האיומים סוכלו בהצלחה</span>
                 </div>
               </div>
             </div>
@@ -674,124 +605,113 @@
       </div>
     </section>
 
-    <!-- SLIDE 6: STRATEGIC TAKEAWAYS & CITATIONS -->
-    <section id="slide-5" class="slide" data-slide="5" data-tier="synthesis">
-      <div class="slide-layout">
-        <div class="slide-col slide-briefing">
-          <div class="module-indicator">
-            <span class="badge-tag">MODULE 06</span>
-            <span class="badge-scope">SYNTHESIS & CITATIONS</span>
-          </div>
-          <h1 class="slide-title">STRATEGIC TAKEAWAYS, GLOBAL IMPACT & SYNTHESIS</h1>
-          <p class="slide-subtitle">
-            From National Survival to NATO Integration: Arrow 3 in Germany, European Sky Shield, and Academic Bibliography
+    <!-- שקופית 6: סיכום, אימוץ בינלאומי ומקורות אקדמיים -->
+    <section id="slide-5" class="slide" data-slide="5">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="module-tag">שקופית 06 // סיכום והשפעה גלובלית</span>
+          <h1 class="slide-title">תובנות אסטרטגיות, אימוץ בינלאומי ומקורות אקדמיים</h1>
+          <p class="slide-desc">
+            מהישרדות לאומית להגנת אירופה ונאט"ו: עסקת חץ 3 בגרמניה, פוליגונים אזרחיים ומקורות מחקר מאומתים
           </p>
+        </div>
 
-          <div class="hud-card mb-md">
-            <div class="hud-card-header">
+        <div class="slide-grid">
+          <div class="deck-card briefing-card">
+            <div class="card-header">
               <span class="card-icon">🌍</span>
-              <h3>Global Strategic & Geopolitical Footprint</h3>
+              <h2>ההשפעה הגלובלית והשותפויות הבינלאומיות</h2>
             </div>
-            <div class="hud-card-body">
-              <ul class="doctrine-list">
+            <div class="card-body">
+              <ul class="key-points-list">
                 <li>
-                  <strong>Germany & European Sky Shield (ESSI):</strong> In 2023, Germany signed a historic €3.5 billion agreement to procure Arrow 3, forming the strategic territorial ballistic missile defense umbrella for Central Europe.
+                  <strong>גרמניה ויוזמת "מגן השמיים האירופי" (ESSI):</strong> בשנת 2023 חתמה גרמניה על עסקת ענק של כ-3.5 מיליארד יורו לרכישת חץ 3, שיהווה את מטריית ההגנה הבליסטית האסטרטגית של מרכז אירופה.
                 </li>
                 <li>
-                  <strong>Finland David's Sling Procurement:</strong> Following NATO accession, Finland acquired David's Sling for high-altitude air defense against advanced cruise and ballistic vectors.
+                  <strong>הצטיידות פינלנד במערכת "קלע דוד":</strong> מיד לאחר הצטרפותה לנאט"ו, בחרה פינלנד בקלע דוד להגנה מפני טילי שיוט ורקטות כבדות.
                 </li>
                 <li>
-                  <strong>Home Front Command Integration:</strong> Defense radars link directly to civilian early warning algorithms, enabling sub-kilometer polygon siren activations rather than panicking entire cities.
+                  <strong>חיבור לפיקוד העורף ופוליגונים מדויקים:</strong> המכ"מים מקושרים ישירות לאלגוריתמי התרעה מבוססי פוליגונים, ומפעילים אזעקות רק בשכונות ספציפיות במקום להשבית מחוזות שלמים.
                 </li>
               </ul>
-            </div>
-          </div>
 
-          <div class="hud-card">
-            <div class="hud-card-header">
-              <span class="card-icon">📚</span>
-              <h3>Academic Sources & Primary Literature</h3>
-            </div>
-            <div class="hud-card-body">
-              <p class="text-sm mb-sm">All figures, ranges, and architectural details in this presentation are verified through unclassified primary defense sources:</p>
-              <div class="citation-links-list">
-                <a href="#modal-citations" id="btn-open-citations" class="citation-btn">
-                  <span>📖</span> OPEN COMPLETE ACADEMIC BIBLIOGRAPHY & REFERENCES
+              <div class="citations-action-card">
+                <span class="cit-title">📚 מקורות מחקר אקדמיים ודוחות רשמיים:</span>
+                <p class="cit-sub">כל הנתונים, הטווחים וההגדרות במצגת זו מבוססים על ספרות ביטחונית גלויה ומחקרים רשמיים:</p>
+                <a href="#modal-citations" id="btn-open-citations" class="deck-action-btn btn-primary-prominent btn-full">
+                  <span>📖</span> פתח רשימת מקורות אקדמיים ומסמכי מדיניות מלאה
                 </a>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="slide-col slide-interactive">
-          <div class="hud-card hud-card-interactive">
-            <div class="hud-card-header">
+          <div class="deck-card interactive-card">
+            <div class="card-header">
               <span class="card-icon">📊</span>
-              <h3>Interactive Multi-Tier Comparison Matrix</h3>
-              <span class="live-tag">SORTABLE MATRIX</span>
+              <h2>מטריצת השוואה מקיפה בין שכבות ההגנה</h2>
+              <span class="live-badge">טבלה מסננת</span>
             </div>
-            <div class="hud-card-body">
-              <div class="matrix-filter-buttons">
-                <button class="filter-btn active" data-filter="all">ALL TIERS (5)</button>
-                <button class="filter-btn" data-filter="laser">IRON BEAM</button>
-                <button class="filter-btn" data-filter="vshorad">IRON DOME</button>
-                <button class="filter-btn" data-filter="medium">DAVID'S SLING</button>
-                <button class="filter-btn" data-filter="exo">ARROW 2 / 3</button>
+            <div class="card-body">
+              <div class="matrix-filter-bar">
+                <button class="filter-tab-btn active" data-filter="all">כל השכבות (5)</button>
+                <button class="filter-tab-btn" data-filter="laser">קרן ברזל</button>
+                <button class="filter-tab-btn" data-filter="vshorad">כיפת ברזל</button>
+                <button class="filter-tab-btn" data-filter="medium">קלע דוד</button>
+                <button class="filter-tab-btn" data-filter="exo">חץ 2 / 3</button>
               </div>
 
-              <!-- Filterable Data Table -->
-              <div class="matrix-table-wrapper">
-                <table class="matrix-table" id="defense-matrix-table">
+              <div class="table-container-deck">
+                <table class="deck-data-table" id="defense-matrix-table">
                   <thead>
                     <tr>
-                      <th>SYSTEM</th>
-                      <th>ALTITUDE</th>
-                      <th>SLANT RANGE</th>
-                      <th>THREAT TARGETS</th>
-                      <th>GUIDANCE / SEEKER</th>
-                      <th>UNIT COST</th>
+                      <th>מערכת</th>
+                      <th>גובה יירוט</th>
+                      <th>טווח מבצעי</th>
+                      <th>איומי מטרה</th>
+                      <th>הנחיה וראש ביות</th>
+                      <th>עלות משוערת</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr data-tier="laser">
-                      <td><strong class="text-laser">Iron Beam</strong></td>
-                      <td>0–2 km</td>
-                      <td>Up to 7–10 km</td>
-                      <td>Drones, Mortars, VSHORAD</td>
-                      <td>Directed Fiber Laser Optics</td>
-                      <td class="text-emerald">~$3.50</td>
+                      <td><strong class="text-laser">קרן ברזל (מגן אור)</strong></td>
+                      <td>0–2 ק"מ</td>
+                      <td>עד 7–10 ק"מ</td>
+                      <td>פצמ"רים, רחפנים</td>
+                      <td>לייזר מצב מוצק אופטי</td>
+                      <td class="text-emerald">~$3.50 לירייה</td>
                     </tr>
                     <tr data-tier="vshorad">
-                      <td><strong class="text-emerald">Iron Dome</strong></td>
-                      <td>0–10 km</td>
-                      <td>4–70 km</td>
-                      <td>Rockets, Mortars, UAVs</td>
-                      <td>AESA Radar + Laser Proximity</td>
-                      <td class="text-cyan">~$50k</td>
+                      <td><strong class="text-emerald">כיפת ברזל</strong></td>
+                      <td>0–10 ק"מ</td>
+                      <td>4–70 ק"מ</td>
+                      <td>רקטות, פצמ"רים, כטב"ם</td>
+                      <td>מכ"ם AESA + מרעום קרבה</td>
+                      <td class="text-cyan">~$50,000</td>
                     </tr>
                     <tr data-tier="medium">
-                      <td><strong class="text-amber">David's Sling</strong></td>
-                      <td>Up to 40 km</td>
-                      <td>40–300 km</td>
-                      <td>Heavy Rockets, Cruise Missiles</td>
-                      <td>Dual RF / IIR (Dolphin Nose)</td>
-                      <td class="text-amber">~$1.0M</td>
+                      <td><strong class="text-amber">קלע דוד</strong></td>
+                      <td>עד 40 ק"מ</td>
+                      <td>40–300 ק"מ</td>
+                      <td>רקטות כבדות, טילי שיוט</td>
+                      <td>כפול RF + אינפרא-אדום (IIR)</td>
+                      <td class="text-amber">~$1,000,000</td>
                     </tr>
                     <tr data-tier="exo">
-                      <td><strong class="text-cyan">Arrow 2</strong></td>
-                      <td>10–50 km</td>
-                      <td>100+ km</td>
-                      <td>MRBM Terminal Descent</td>
-                      <td>Directional Blast Frag + Radar</td>
-                      <td class="text-crimson">~$2.0M</td>
+                      <td><strong class="text-cyan">טיל חץ 2</strong></td>
+                      <td>10–50 ק"מ</td>
+                      <td>100+ ק"מ</td>
+                      <td>טילים בליסטיים (צלילה)</td>
+                      <td>רסס כיווני + מכ"ם פעיל</td>
+                      <td class="text-crimson">~$2,000,000</td>
                     </tr>
                     <tr data-tier="exo">
-                      <td><strong class="text-cyan">Arrow 3</strong></td>
-                      <td>>100 km (Exo)</td>
-                      <td>2,400 km</td>
-                      <td>Exo-Atmospheric Ballistic / WMD</td>
-                      <td>Thrust Vectoring Space KKV</td>
-                      <td class="text-crimson">~$3.0M</td>
+                      <td><strong class="text-cyan">טיל חץ 3</strong></td>
+                      <td>>100 ק"מ (בחלל)</td>
+                      <td>כ-2,400 ק"מ</td>
+                      <td>טילים בליסטיים בחלל / אב"כ</td>
+                      <td>רכב השמדה קינטי KKV בחלל</td>
+                      <td class="text-crimson">~$3,000,000</td>
                     </tr>
                   </tbody>
                 </table>
@@ -804,78 +724,83 @@
 
   </main>
 
-  <!-- Bibliography Modal Drawer -->
-  <aside id="modal-citations" class="hud-modal" aria-hidden="true">
-    <div class="hud-modal-dialog">
-      <div class="hud-modal-header">
-        <div class="modal-title">
-          <span>📚</span> ACADEMIC BIBLIOGRAPHY & PRIMARY RESEARCH CITATIONS
-        </div>
-        <button id="btn-close-citations" class="modal-close-btn">&times;</button>
+  <!-- חלון מקורות אקדמיים (מודאל מרווח) -->
+  <aside id="modal-citations" class="deck-modal" aria-hidden="true">
+    <div class="deck-modal-dialog">
+      <div class="deck-modal-header">
+        <h2 class="modal-heading">
+          <span>📚</span> מקורות אקדמיים, דוחות משרד הביטחון ומסמכי מחקר
+        </h2>
+        <button id="btn-close-citations" class="modal-close-cross">&times;</button>
       </div>
-      <div class="hud-modal-body">
-        <div class="citation-entry">
-          <div class="citation-header">Israel Ministry of Defense (IMOD) / DDR&D (MAFAT)</div>
-          <p class="citation-text">"Multi-Tier Integrated Missile Defense: Architecture, Technology and Operational Concepts." Ministry of Defense Whitepaper Series, Tel Aviv.</p>
+      <div class="deck-modal-body">
+        <div class="citation-card">
+          <div class="cit-agency">משרד הביטחון / מפא"ת (מנהלת חומה)</div>
+          <p class="cit-quote">"מערך ההגנה הרב-שכבתי: תפיסה ארכיטקטונית, התפתחות טכנולוגית ויירוט מבצעי." סדרת מסמכי מדיניות משרד הביטחון, תל אביב.</p>
         </div>
-        <div class="citation-entry">
-          <div class="citation-header">Center for Strategic and International Studies (CSIS) Missile Defense Project</div>
-          <p class="citation-text">"Iron Dome, David's Sling, and Arrow Air Defense Systems: Technical Analysis and Intercept Records." CSIS Aerospace Security Project, Washington D.C.</p>
+        <div class="citation-card">
+          <div class="cit-agency">Center for Strategic and International Studies (CSIS) - פרויקט הגנת טילים</div>
+          <p class="cit-quote">"מערכות כיפת ברזל, קלע דוד וחץ: ניתוח טכנולוגי ודוחות יירוט קרבי." CSIS Missile Defense Project, וושינגטון.</p>
         </div>
-        <div class="citation-entry">
-          <div class="citation-header">Stockholm International Peace Research Institute (SIPRI)</div>
-          <p class="citation-text">"Arms Transfers, Air Defense Procurement, and the European Sky Shield Initiative (ESSI)." SIPRI Yearbook 2024.</p>
+        <div class="citation-card">
+          <div class="cit-agency">מכון שטוקהולם הבינלאומי לחקר השלום (SIPRI)</div>
+          <p class="cit-quote">"העברות נשק, מערכות הגנה אווירית ויוזמת מגן השמיים האירופי (ESSI)." שנתון SIPRI 2024.</p>
         </div>
-        <div class="citation-entry">
-          <div class="citation-header">Rafael Advanced Defense Systems & Raytheon Technologies</div>
-          <p class="citation-text">"The Stunner Multi-Mission Interceptor: Dual-Sensor Performance in High-Clutter Electronic Environments." AIAA Aerospace Sciences Meeting.</p>
+        <div class="citation-card">
+          <div class="cit-agency">רפאל מערכות לחימה מתקדמות וריית'יאון טכנולוגיות</div>
+          <p class="cit-quote">"מיירט הסטאנר: ביצועי היתוך חיישנים כפולים בסביבת לוחמה אלקטרונית עתירת הפרעות." כנס AIAA למדעי התעופה והחלל.</p>
         </div>
-        <div class="citation-entry">
-          <div class="citation-header">Israel Aerospace Industries (IAI) MLM Division & US Missile Defense Agency (MDA)</div>
-          <p class="citation-text">"Exo-Atmospheric Ballistic Missile Interception: Flight Test Verification of Arrow 3 Weapon System." Joint Program Office Technical Reports.</p>
+        <div class="citation-card">
+          <div class="cit-agency">התעשייה האווירית לישראל (מלמ) וסוכנות ההגנה האמריקאית (MDA)</div>
+          <p class="cit-quote">"יירוט טילים בליסטיים מחוץ לאטמוספירה: דוחות ניסויי טיסה של מערכת נשק חץ 3." Joint Program Office Technical Reports.</p>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- Persistent HUD Footer Console -->
-  <footer id="aegis-hud-footer" class="aegis-hud-footer">
-    <div class="footer-progress-bar-container">
+  <!-- סרגל ניווט תחתון נוח במיוחד למרצה (Presenter Friendly) -->
+  <footer class="deck-footer">
+    <div class="footer-progress-track">
       <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
     </div>
 
-    <div class="footer-inner">
-      <div class="footer-left">
-        <div class="keyboard-hints">
-          <span class="hint-pill"><kbd>←</kbd> / <kbd>→</kbd> / <kbd>SPACE</kbd> NAVIGATE</span>
-          <span class="hint-pill"><kbd>T</kbd> 3D SANDBOX</span>
-          <span class="hint-pill"><kbd>1–6</kbd> MODULE JUMP</span>
-        </div>
+    <div class="footer-content">
+      <!-- כפתורי שקופיות קודם / הבא -->
+      <div class="footer-nav-buttons">
+        <button id="btn-prev-slide" class="deck-nav-btn" disabled aria-label="שקופית קודמת">
+          <span class="nav-arrow">◀</span> שקופית קודמת
+        </button>
+        <button id="btn-next-slide" class="deck-nav-btn deck-nav-btn-next" aria-label="שקופית הבאה">
+          שקופית הבאה <span class="nav-arrow">▶</span>
+        </button>
       </div>
 
-      <div class="footer-center">
-        <nav class="step-dots-nav" id="step-indicators" aria-label="Slide Navigation">
-          <button class="step-dot active" data-index="0" title="Module 01: Strategic Doctrine">01</button>
-          <button class="step-dot" data-index="1" title="Module 02: Iron Dome">02</button>
-          <button class="step-dot" data-index="2" title="Module 03: David's Sling">03</button>
-          <button class="step-dot" data-index="3" title="Module 04: Arrow 2 & 3">04</button>
-          <button class="step-dot" data-index="4" title="Module 05: C4I Command Matrix">05</button>
-          <button class="step-dot" data-index="5" title="Module 06: Synthesis & Citations">06</button>
+      <!-- נקודות מעבר ישיר בין שקופיות -->
+      <div class="footer-dots-nav">
+        <nav class="dots-cluster" id="step-indicators" aria-label="ניווט ישיר לשקופית">
+          <button class="dot-btn active" data-index="0" title="שקופית 01: תפיסה אסטרטגית ומפת איומים">01</button>
+          <button class="dot-btn" data-index="1" title="שקופית 02: כיפת ברזל (שכבה ראשונה)">02</button>
+          <button class="dot-btn" data-index="2" title="שקופית 03: קלע דוד (שכבה שנייה)">03</button>
+          <button class="dot-btn" data-index="3" title="שקופית 04: חץ 2 וחץ 3 (שכבות 3 ו-4)">04</button>
+          <button class="dot-btn" data-index="4" title="שקופית 05: מערך שו&quot;ב ומגן אור">05</button>
+          <button class="dot-btn" data-index="5" title="שקופית 06: סיכום ומקורות אקדמיים">06</button>
         </nav>
       </div>
 
-      <div class="footer-right">
-        <button id="btn-prev-slide" class="nav-control-btn" disabled aria-label="Previous Slide">
-          <span class="btn-arrow">◀</span> PREV
-        </button>
-        <button id="btn-next-slide" class="nav-control-btn" aria-label="Next Slide">
-          NEXT <span class="btn-arrow">▶</span>
-        </button>
+      <!-- קיצורי מקלדת שימושיים -->
+      <div class="footer-hints">
+        <span class="hint-key"><kbd>→</kbd> / <kbd>←</kbd> / <kbd>רווח</kbd> ניווט</span>
+        <span class="hint-key"><kbd>1–6</kbd> קפיצה</span>
+        <span class="hint-key"><kbd>F</kbd> מסך מלא</span>
       </div>
     </div>
   </footer>
 
-  <!-- Application Controller Script -->
+  <!-- Three.js & OrbitControls דרך CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  
+  <!-- מנוע המצגת והאינטראקטיביות -->
   <script src="app.js"></script>
 </body>
 </html>
